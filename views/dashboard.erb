@@ -18,6 +18,9 @@
 </div>
 
 <div class="json_data">
-  <p>Name: <%= @object["name"] %></p>
-  <p>Gender: <%= @object["gender"] %></p>
+  <% @objects.each do |object| %>
+  <li>
+    <p>Name: <%= object["name"] %> Gender: <%= object["gender"] %></p>
+  </li>
+  <% end %>
 </div>

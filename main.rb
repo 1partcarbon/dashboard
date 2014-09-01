@@ -11,7 +11,7 @@ get '/dashboard' do
   @name = "dash"
 
   data = Runner.new.fetch_data
-  @object = JSON.parse(data)
+  @objects = JSON.parse(data)
 
 
   @number = 0
