@@ -1,0 +1,14 @@
+.tiles{
+  position: relative;
+  width: 100px;
+  height:100px;
+  background-color: blue;
+}
+
+.tiles_text{
+  position: absolute;
+  left: 30px;
+  text-align: center;
+  color: white;
+  font-size: 20px;
+}
