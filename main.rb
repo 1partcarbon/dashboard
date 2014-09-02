@@ -12,11 +12,17 @@ get '/dashboard' do
   @name = "dash"
 
   data = ConnectionHandler.new.fetch_data
-  users = JSON.parse(data)
-  @objects = users["Users"]
+  if !data
+    erb :not_found
+  else
 
-  @number = 0
-  erb :dashboard, :layout => :layout
+    users = JSON.parse(data)
+    @objects = users["Users"]
+  
+    @number = 0
+    erb :dashboard, :layout => :layout
+  end
+
 end
 
 
