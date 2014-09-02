@@ -32,11 +32,33 @@ describe 'when navigate to dashboard' do
   }
 
   before do
-    @expected = ConnectionHandler.new.fetch_data
+    users = ConnectionHandler.new.fetch_data
+
+    @expected = JSON.parse(users)["Users"]
   end
+
 
   it 'should fetch json data from rul' do
     get '/dashboard'
-    expect(@expected).to eq(data)
+    expect(@expected).to eq(JSON.parse(data))
   end
+
+  it 'should have four objects' do
+    get '/dashboard'
+    expect(@expected.count).to eq(4)
+  end
+
+
+ 
 end
+
+
+
+
+
+
+
+
+
+
+
