@@ -5,18 +5,34 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 
 require 'json'
-require_relative('tasks/runner.rb')
+require_relative 'tasks/connection_handler.rb'
+
 
 get '/dashboard' do
   @name = "dash"
 
-  data = Runner.new.fetch_data
+  data = ConnectionHandler.new.fetch_data
   @objects = JSON.parse(data)
 
 
   @number = 0
   erb :dashboard, :layout => :layout
 end
+
+
+get '/tests' do
+  'Hey'
+end
+
+post '/tests' do
+  reverse params[:str]
+end
+
+def reverse string
+  string.each_char.to_a.reverse.join
+end
+
+
 
 get '/projects' do
   erb :projects, :layout => :layout
