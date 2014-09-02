@@ -14,7 +14,6 @@ get '/dashboard' do
   data = ConnectionHandler.new.fetch_data
   @objects = JSON.parse(data)
 
-
   @number = 0
   erb :dashboard, :layout => :layout
 end
