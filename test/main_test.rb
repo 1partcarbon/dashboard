@@ -27,10 +27,10 @@ describe 'when navigate to dashboard' do
 
 
   before do
-    @false_response = ConnectionHandler.new.url_validate(invalid_url)
-    @true_response = ConnectionHandler.new.url_validate(valid_url)
+    @false_response = ConnectionHandler.new.fetch_data(invalid_url)
+    @true_response = ConnectionHandler.new.fetch_data(valid_url)
 
-    users = ConnectionHandler.new.fetch_data
+    users = ConnectionHandler.new.fetch_data(valid_url)
 
     @expected = JSON.parse(users)["Users"]
   end
@@ -55,11 +55,6 @@ describe 'when navigate to dashboard' do
     end
   end
   
-  describe 'when the url is valid' do
-    it 'the response should be 200' do
-      assert_equal "200", @true_response
-    end
-  end
  
 end
 

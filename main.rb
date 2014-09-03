@@ -10,8 +10,9 @@ require_relative 'tasks/connection_handler.rb'
 
 get '/dashboard' do
   @name = "dash"
+  url = "https://gist.githubusercontent.com/Tvli/402a076f026733650af1/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons"
 
-  data = ConnectionHandler.new.fetch_data
+  data = ConnectionHandler.new.fetch_data(url)
   if !data
     erb :not_found
   else
