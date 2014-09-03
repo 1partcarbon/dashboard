@@ -5,25 +5,24 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 
 require 'json'
-require_relative 'tasks/connection_handler.rb'
+require_relative 'tasks/http_resource.rb'
 
 
 get '/dashboard' do
   @name = "dash"
   url = "https://gist.githubusercontent.com/Tvli/402a076f026733650af1/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons"
 
-  data = ConnectionHandler.new.fetch_data(url)
+  data = HttpResource.new.fetch(url)
   if !data
     erb :not_found
   else
 
-    users = JSON.parse(data)
+    users = JSON.parse(data.body)
     @objects = users["Users"]
   
     @number = 0
     erb :dashboard, :layout => :layout
   end
-
 end
 
 

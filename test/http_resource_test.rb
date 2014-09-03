@@ -32,6 +32,10 @@ describe HttpResource do
         refute HttpResource.new.fetch(url)
       end
     end
+
+    it 'raises an invalid enpoint error when an invalid url is passed' do
+      assert_raises(Dashboard::InvalidEndpointError) { HttpResource.new.fetch('wibble') }
+    end
   end
 
 end
