@@ -33,13 +33,12 @@ class ConnectionHandler
     end
   end
 
-  private
-    def url_validate(url)
-      uri = URI.parse(url)
-      request = Net::HTTP.new(uri.host, uri.port)
-      request.use_ssl = true if uri.scheme == 'https'
-      res = request.request_head(uri.path).code
-    end
+  def url_validate(url)
+    uri = URI.parse(url)
+    request = Net::HTTP.new(uri.host, uri.port)
+    request.use_ssl = true if uri.scheme == 'https'
+    res = request.request_head(uri.path).code
+  end
 
 
 end
