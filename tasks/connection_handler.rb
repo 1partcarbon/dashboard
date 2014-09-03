@@ -21,31 +21,27 @@ require 'net/http'
 require 'json'
 
 class ConnectionHandler
+  
 
   def fetch_data
-
-
     url = "https://gist.githubusercontent.com/Tvli/402a076f026733650af1/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons"
-    uri = URI.parse(url)
-    request = Net::HTTP.new(uri.host, uri.port)
-    request.use_ssl = true if uri.scheme == 'https'
-    res = request.request_head(uri.path).code
-
-    if res == "200"
+    if url_validate(url) == "200"
        response = open(url)
        data = response.read
-       data
      else
       false
     end
-
-   
-    
-    # @object = JSON.parse(data)
-    
-    # puts @object["name"]
-    # puts @object["gender"]
   end
+
+  private
+    def url_validate(url)
+      uri = URI.parse(url)
+      request = Net::HTTP.new(uri.host, uri.port)
+      request.use_ssl = true if uri.scheme == 'https'
+      res = request.request_head(uri.path).code
+    end
+
+
 end
 
 

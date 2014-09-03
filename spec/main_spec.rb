@@ -4,13 +4,10 @@ require 'rack/test'
 require 'spec_helper'
 
 set :environment, :test
-
     
 def app
   Sinatra::Application
 end
-
-
 
 describe 'routes test' do
   it 'should load test page' do
@@ -23,7 +20,6 @@ describe 'routes test' do
     expect(last_response.body).to eq('gnet')
   end
 end
-
 
 
 describe 'when navigate to dashboard' do
@@ -49,6 +45,17 @@ describe 'when navigate to dashboard' do
   end
 
 
+describe 'when the url is not valid' do
+  it 'the not found page should be loaded' do
+    
+  end
+end
+
+describe 'when the url is valid' do
+  it 'the dashboard page should be loaded' do
+    
+  end
+end
  
 end
 
