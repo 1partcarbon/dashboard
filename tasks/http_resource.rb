@@ -5,9 +5,12 @@ class HttpResource
   def fetch(url)
     
     uri = URI(url)
-    response = Net::HTTP.get_response(uri)
+    begin
+      response = Net::HTTP.get_response(uri)
+    rescue 
+      raise Dashboard::InvalidEndpointError
+    end
     response.code == "200" ? response : false
-    # raise Dashboard::InvalidEndpointError
   end
 end
 
