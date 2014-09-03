@@ -6,12 +6,9 @@ gem 'activesupport'
 
 gem 'sinatra-contrib', group: :development
 
-group :test, :development do
-  gem 'rspec'
-end
-
 group :test do
   gem 'rack-test'
+  gem 'minitest'
 end
 
 # gem "rails"
