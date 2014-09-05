@@ -5,6 +5,7 @@
   <meta charset="utf-8">
   <!-- <meta http-equiv="refresh" content="1" /> -->
   <link rel="stylesheet" href="/css/style.css">
+  <script type="text/javascript" src="/javascript/select_tag.js"></script>
 </head>
 
 <body>
@@ -13,10 +14,24 @@
   
 </div>
 
-<div class="test">
-  <h1>Here is the layout</h1>
-  <%= Time.now %>
+<div class="control_panel">
+  <h3 class="title"><%= "Control Panel:" %></h3>
+    <div class="channel_switcher">
+      <p>Video channel: 
+        <select id="selector" onchange="pass_video_src()">
+          <option value="0">Velocity Light</option>
+          <option value="1">Spider Monkey</option>  
+          <option value="2">Penguin</option>
+        </select>
+      </p>
+    </div>
 </div>
+
+<div class="time">
+  <%= Time.now %> 
+</div>
+
+
 
 <section>
   <%= yield %>

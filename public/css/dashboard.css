@@ -3,6 +3,7 @@
   display: inline-block;
   width: 100px;
   height:100px;
+  border-radius: 10px;
   background-color: #FF9933;
   vertical-align: bottom;
 }
@@ -19,13 +20,14 @@
   display:inline-block;
   padding: 5px 5px;
   border-style: solid;
+  border-radius: 10px;
   vertical-align: bottom;
   border-width: 2px;
   margin-left: 5px;
 }
 
 .video_tile{
-  display: inline-block;;
+  display: inline-block;
   margin-left: 5px;
   vertical-align: bottom;
 }

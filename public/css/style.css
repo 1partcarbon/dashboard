@@ -1,5 +1,21 @@
-.test {
+.time {
   color: #3399FF;
+  position: relative;
+  display: inline-block;
+  float: right;
+}
+
+.control_panel{
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 2px;
+  display: inline-block;
+
+  padding: 10px 10px;
+
+}
+.control_panel .title{
+  margin-top: -2px;
 }
 
 body{
