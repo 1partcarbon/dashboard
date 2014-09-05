@@ -1,6 +1,6 @@
 <link rel="stylesheet" href="/css/dashboard.css">
 
-<% title = "dashboard_title" %>
+<% title = "Dashboard_title" %>
 
 <h1><%= title %></h1>
 <p><%= @name %> go</p> 
@@ -11,16 +11,20 @@
   </div>
 
 
-
   <script>
-    alert("hey");
+    alert("Ready to fetch data");
   </script>
 </div>
 
-<div class="json_data">
+<div class="json_tile">
   <% @objects.each do |object| %>
   <li>
     <p>Name: <%= object["name"] %> Gender: <%= object["gender"] %></p>
   </li>
   <% end %>
+</div>
+
+
+<div class="video_tile">
+<iframe src="//player.vimeo.com/video/86328631" width="500" height="281" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe> 
 </div>

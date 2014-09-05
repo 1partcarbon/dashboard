@@ -1,8 +1,10 @@
 .tiles{
   position: relative;
+  display: inline-block;
   width: 100px;
   height:100px;
-  background-color: blue;
+  background-color: #FF9933;
+  vertical-align: bottom;
 }
 
 .tiles_text{
@@ -11,4 +13,19 @@
   text-align: center;
   color: white;
   font-size: 20px;
+}
+
+.json_tile{
+  display:inline-block;
+  padding: 5px 5px;
+  border-style: solid;
+  vertical-align: bottom;
+  border-width: 2px;
+  margin-left: 5px;
+}
+
+.video_tile{
+  display: inline-block;;
+  margin-left: 5px;
+  vertical-align: bottom;
 }
