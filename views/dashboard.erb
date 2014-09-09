@@ -57,117 +57,101 @@ var svg = d3.select("section").append("svg")
 
 
 
-  // d3.tsv("data.tsv", type, function(error, data) {
-  // var path = svg.datum(data).selectAll("path")
-  //     .data(pie)
-  //   .enter().append("path")
-  //     .attr("fill", function(d, i) { return color(i); })
-  //     .attr("d", arc)
-  //     .each(function(d) { this._current = d; }); // store the initial angles
 
   d3.selectAll("#data_selector")
       .on("change", change);
 
-    function change(){
+  function change(){
       var option = this.value;
       console.log("value is " + option);
 
-   var g = d3.selectAll(".arc").remove();
-   console.log(g);
+      var g = d3.selectAll(".arc").remove();
       
 
 
-  if (option == 0) {
-    d3.csv("gender.csv", function(error, data) {
+      if (option == 0) {
+        d3.csv("gender.csv", function(error, data) {
 
-      data.forEach(function(d) {
-        d.population = +d.population;
+          data.forEach(function(d) {
+            d.population = +d.population;
+          });
+
+          var g = svg.selectAll(".arc")
+              .data(pie(data))
+            .enter().append("g")
+              .attr("class", "arc");
+
+          g.append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color(d.data.gender); });
+
+          g.append("text")
+              .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle")
+              .text(function(d) { return d.data.gender; });
+
+
+        });
+      }
+
+      if (option == 1) {
+          d3.csv("age.csv", function(error, data) {
+
+          data.forEach(function(d) {
+            d.population = +d.population;
+          });
+
+          var g = svg.selectAll(".arc")
+              .data(pie(data))
+            .enter().append("g")
+              .attr("class", "arc");
+
+          g.append("path")
+              .attr("d", arc)
+              .style("fill", function(d) { return color(d.data.age); });
+
+          g.append("text")
+              .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+              .attr("dy", ".35em")
+              .style("text-anchor", "middle")
+              .text(function(d) { return d.data.age; });
+
+        });
+      }
+
+
+      if (option == 2) {
+        d3.csv("occupation.csv", function(error, data) {
+
+        data.forEach(function(d) {
+          d.population = +d.population;
+        });
+
+        var g = svg.selectAll(".arc")
+            .data(pie(data))
+          .enter().append("g")
+            .attr("class", "arc");
+
+        g.append("path")
+            .attr("d", arc)
+            .style("fill", function(d) { return color(d.data.occupation); });
+
+        g.append("text")
+            .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
+            .attr("dy", ".35em")
+            .style("text-anchor", "middle")
+            .text(function(d) { return d.data.occupation; });
+
       });
 
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc");
-
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.gender); });
-
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.gender; });
-
-
-    });
-
-
-  }
-
-  if (option == 1) {
-      d3.csv("age.csv", function(error, data) {
-
-      data.forEach(function(d) {
-        d.population = +d.population;
-      });
-
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc");
-
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.age); });
-
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.age; });
-
-    });
-  }
-
-
-    if (option == 2) {
-      d3.csv("occupation.csv", function(error, data) {
-
-      data.forEach(function(d) {
-        d.population = +d.population;
-      });
-
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc");
-
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.occupation); });
-
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.occupation; });
-
-    });
-
-
-  }
+    }
 
     
   } 
 
 
-var option = document.getElementById("data_selector").value;
-console.log("data option" + option);
 
-
-
-  if (option == 0) {
     d3.csv("gender.csv", function(error, data) {
 
       data.forEach(function(d) {
@@ -190,64 +174,6 @@ console.log("data option" + option);
           .text(function(d) { return d.data.gender; });
 
     });
-  }
-
-  if (option == 1) {
-      d3.csv("age.csv", function(error, data) {
-
-      data.forEach(function(d) {
-        d.population = +d.population;
-      });
-
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc");
-
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.age); });
-
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.age; });
-
-    });
-  }
-
-
-    if (option == 2) {
-      d3.csv("occupation.csv", function(error, data) {
-
-      data.forEach(function(d) {
-        d.population = +d.population;
-      });
-
-      var g = svg.selectAll(".arc")
-          .data(pie(data))
-        .enter().append("g")
-          .attr("class", "arc");
-
-      g.append("path")
-          .attr("d", arc)
-          .style("fill", function(d) { return color(d.data.occupation); });
-
-      g.append("text")
-          .attr("transform", function(d) { return "translate(" + arc.centroid(d) + ")"; })
-          .attr("dy", ".35em")
-          .style("text-anchor", "middle")
-          .text(function(d) { return d.data.occupation; });
-
-    });
-
-
-  }
-
-
-
-
 
 </script>
 
