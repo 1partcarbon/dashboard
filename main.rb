@@ -25,6 +25,12 @@ get '/dashboard' do
 end
 
 
+
+get '/index' do
+  erb :index
+end
+
+
 get '/tests' do
   'Hey'
 end

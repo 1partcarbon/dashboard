@@ -26,6 +26,14 @@
   margin-left: 5px;
 }
 
+svg{
+  display: inline-block;
+  border-style: solid;
+  border-radius: 10px;
+  vertical-align: bottom;
+  border-width: 2px;
+}
+
 .video_tile{
   display: inline-block;
   margin-left: 5px;

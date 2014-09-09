@@ -1,5 +1,6 @@
 function pass_video_src(){
-  var option = document.getElementById("selector").value;
+  var option = document.getElementById("video_selector").value;
+  console.log("video option" + option);
   if(option == 0){
     document.getElementById("video").src = "//player.vimeo.com/video/86328631";  
   }
