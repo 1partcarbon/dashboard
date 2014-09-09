@@ -6,9 +6,13 @@ require 'sinatra/reloader' if development?
 
 require 'json'
 require_relative 'tasks/http_resource.rb'
+require_relative 'models/vimeo_tile.rb'
 
 
 get '/dashboard' do
+  
+
+
   url = "https://gist.githubusercontent.com/Tvli/402a076f026733650af1/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons"
 
   data = HttpResource.new.fetch(url)
@@ -26,7 +30,11 @@ end
 
 
 
+
+
+
 get '/index' do
+  @vimeo_tile = VimeoTile.new
   erb :index
 end
 
