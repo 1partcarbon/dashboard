@@ -1,21 +1,4 @@
-[
-   {
-     "name": "Teng",
-     "gender": "male"
-   },
-   
-   {
-     "name": "Tom",
-     "gender": "male"
-   },
-   
-   {
-     "name": "Jane",
-     "gender": "female"
-   },
-   
-   {
-     "name": "Ariel",
-     "gender": "female"
-   }      
-]
+{
+  "Test": "Test string"
+}
+ 
