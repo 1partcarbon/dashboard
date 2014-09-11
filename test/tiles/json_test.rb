@@ -3,7 +3,7 @@ require "minitest/spec"
 require "minitest/autorun"
 
 require_relative '../../tiles/json_tile'
-require_relative '../../tasks/http_resource'
+require_relative '../../helpers/http_resource'
 require_relative '../mocks/fake_response'
 
 

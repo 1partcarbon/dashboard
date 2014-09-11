@@ -15,11 +15,8 @@ class IFrame < Tile
   end
 
   def display
-    erb = ERB.new(File.read(File.expand_path("views/tiles/iframe.erb")))
     context = {:url => @url, :height => @height, :width => @width}
-    erb_context = ERBContext.new(context)
-    erb_binding = erb_context.get_binding
-    erb.result(erb_binding)
+    ERBParser.parse(context, 'views/tiles/iframe.erb')
   end
 
 end

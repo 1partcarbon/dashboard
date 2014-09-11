@@ -1,6 +1,5 @@
-require "erb"
-require_relative "erb_context.rb"
+require_relative '../helpers/erb_parser.rb'
 
 class Tile
-  
+
 end

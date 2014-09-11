@@ -10,11 +10,17 @@ require_relative 'tiles/iframe.rb'
 
 class Main < Sinatra::Base
 
- set :tiles, Array.new
+ #set :tiles, Array.new
 
+  attr_accessor :tiles
+
+  def initialize
+    @tiles = []
+    super
+  end
 
   get '/dashboard' do
-    @tiles_to_display = settings.tiles
+    @tiles_to_display = tiles
     erb :dashboard, :layout => :simple_layout
   end
 
@@ -53,6 +59,7 @@ class Main < Sinatra::Base
     id = params[:video_id]
     vimeo = Vimeo.new(id)
     add_tile(vimeo)
+
     redirect to '/dashboard'
   end
 
@@ -64,15 +71,15 @@ class Main < Sinatra::Base
   end
 
   def add_tile(tile)
-    settings.tiles.push(tile)
+    tiles.push(tile)
   end
 
   def remove_tile(index)
-    settings.tiles.delete_at(index)
+    tiles.delete_at(index)
   end
 
   def delete_all
-    settings.tiles = []
-  def
+    tiles = []
+  end
 
 end

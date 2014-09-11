@@ -13,11 +13,8 @@ class Vimeo < Tile
   end
 
   def display
-    erb = ERB.new(File.read(File.expand_path("views/tiles/vimeo.erb")))
     context = {:url => @url}
-    erb_context = ERBContext.new(context)
-    erb_binding = erb_context.get_binding
-    erb.result(erb_binding)
+    ERBParser.parse(context, "views/tiles/vimeo.erb")
   end
 
 end

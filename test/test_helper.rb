@@ -5,6 +5,6 @@ ENV["RACK_ENV"] = "test"
 
 include Rack::Test::Methods
 
-def app
-  Main
-end
+#def app
+ # Main.new
+#end
