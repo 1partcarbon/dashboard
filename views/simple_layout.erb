@@ -10,7 +10,14 @@
 
 
 <body>
- <section>
+  <section>
+    <% if @errors.any? %>
+      <ul>
+      <% @errors.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+      </ul>
+    <% end %>
     <%= yield %>
   </section>
 </body>

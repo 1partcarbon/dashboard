@@ -16,7 +16,12 @@ class Main < Sinatra::Base
 
   def initialize
     @tiles = []
+    @errors = []
     super
+  end
+
+  after do
+    @errors.clear
   end
 
   get '/dashboard' do
@@ -65,9 +70,14 @@ class Main < Sinatra::Base
 
   post '/new_tile/json' do
     url = params[:json_url]
-    json = JSONTile.new(url)
-    add_tile(json)
-    redirect to '/dashboard'
+    begin 
+      json = JSONTile.new(url)
+      add_tile(json)
+      redirect to '/dashboard'
+    rescue
+      @errors.push("URL is invalid")
+      erb :new_tile_json, :layout => :simple_layout
+    end 
   end
 
   def add_tile(tile)

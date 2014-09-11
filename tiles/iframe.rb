@@ -2,7 +2,7 @@ require_relative 'tile.rb'
 
 class IFrame < Tile
 
-  attr_accessor :url, :height, :width
+  attr_accessor :url, :width, :height
 
   def initialize(url, width, height)
     @url = url
