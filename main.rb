@@ -36,7 +36,7 @@ class Main < Sinatra::Base
 
   get '/remove_tile' do
     index = params[:index].to_i
-    settings.tiles.delete_at(index)
+    remove_tile(index)
     redirect to '/dashboard'
   end
 
@@ -45,23 +45,34 @@ class Main < Sinatra::Base
     height = params[:embed_height]
     width = params[:embed_width]
     iframe = IFrame.new(url, width, height)
-    handle_tile(iframe)
+    add_tile(iframe)
+    redirect to '/dashboard'
   end
 
   post '/new_tile/vimeo' do
     id = params[:video_id]
     vimeo = Vimeo.new(id)
-    handle_tile(vimeo)
+    add_tile(vimeo)
+    redirect to '/dashboard'
   end
 
   post '/new_tile/json' do
     url = params[:json_url]
     json = JSONTile.new(url)
-    handle_tile(json)
-  end
-
-  def handle_tile(tile)
-    settings.tiles.push(tile)
+    add_tile(json)
     redirect to '/dashboard'
   end
+
+  def add_tile(tile)
+    settings.tiles.push(tile)
+  end
+
+  def remove_tile(index)
+    settings.tiles.delete_at(index)
+  end
+
+  def delete_all
+    settings.tiles = []
+  def
+
 end
