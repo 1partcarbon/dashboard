@@ -4,7 +4,6 @@ require 'rack/test'
 require_relative 'test_helper'
 
 set :environment, :test
-    
 
 
 # describe 'routes test' do
@@ -20,7 +19,7 @@ set :environment, :test
 # end
 
 
- describe 'when navigate to dashboard' do
+ describe Main do
 #   let(:data) { File.read("#{__dir__}/fixtures/get_data.json") }
 #   let(:valid_url) { "https://gist.githubusercontent.com/Tvli/402a076f026733650af1/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons" }
 #   let(:invalid_url) { "https://gist.githubusercontent.com/Tvli/raw/b7f2ea0c33e4d7fa8adc4916cae267c08eea37ee/respons" }
@@ -62,13 +61,28 @@ set :environment, :test
     end
   end 
 
-   describe 'when the user clicks vimeo link' do
+  describe 'when the user clicks vimeo link' do
     it 'should display the new vimeo form' do
       get '/new_tile/vimeo'
       assert last_response.ok?
     end
    end
- 
+
+  describe 'when adding a new vimeo tile' do
+    it 'should add a new tile to the array' do
+      size =  app.get_tiles.count
+      post '/new_tile/vimeo', params = {:video_id => '12345'}
+      assert_equal (size + 1) , app.get_tiles.count
+    end
+  end
+
+  describe 'when clicking a remove link' do
+    it 'should remove the element from the tile array' do
+      app.settings.tiles = [Vimeo.new("2343543")]
+      get '/remove_tile?index=0'
+      assert_equal 0, app.settings.tiles.count
+    end
+  end
 end
 
 
