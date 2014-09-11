@@ -8,43 +8,16 @@
   <script type="text/javascript" src="/javascript/select_tag.js"></script>
 </head>
 
+
 <body>
-
-<div class="nav_bar">
-  
-</div>
-
-<div class="control_panel">
-  <h3 class="title"><%= "Control Panel:" %></h3>
-    <div class="channel_switcher">
-      <p>Video channel: </p>
-        <select id="video_selector" onchange="pass_video_src()">
-          <option value="0">Velocity Light</option>
-          <option value="1">Spider Monkey</option>  
-          <option value="2">Penguin</option>
-        </select>
-    </div>
-
-    <div class="data_switcher">
-      <p>Pie chart channel: </p>
-       <select id="data_selector">
-          <option value="0">Gender</option>
-          <option value="1">Age</option>  
-          <option value="2">Occupation</option>
-        </select>
-    </div>
-
-
-</div>
-
-<div class="time">
-  <%= Time.now.getgm %> 
-</div>
-
-
-
-<section>
-  <%= yield %>
-</section>
-
+  <section>
+    <% if @errors.any? %>
+      <ul>
+      <% @errors.each do |e| %>
+        <li><%= e %></li>
+      <% end %>
+      </ul>
+    <% end %>
+    <%= yield %>
+  </section>
 </body>

@@ -26,23 +26,23 @@ class Main < Sinatra::Base
 
   get '/dashboard' do
     @tiles_to_display = tiles
-    erb :dashboard, :layout => :simple_layout
+    erb :dashboard
   end
 
   get '/new_tile' do
-    erb :new_tile, :layout => :simple_layout
+    erb :new_tile
   end
 
   get '/new_tile/vimeo' do
-    erb :new_tile_vimeo, :layout => :simple_layout
+    erb :new_tile_vimeo
   end
 
   get '/new_tile/json' do
-    erb :new_tile_json, :layout => :simple_layout
+    erb :new_tile_json
   end
 
   get '/new_tile/iframe' do
-    erb :new_tile_iframe, :layout => :simple_layout
+    erb :new_tile_iframe
   end
 
   get '/remove_tile' do
@@ -60,7 +60,7 @@ class Main < Sinatra::Base
     redirect to '/dashboard'
   end
 
-  post '/new_tile/vimeo' do
+   post '/new_tile/vimeo' do
     id = params[:video_id]
     vimeo = Vimeo.new(id)
     add_tile(vimeo)
@@ -76,7 +76,7 @@ class Main < Sinatra::Base
       redirect to '/dashboard'
     rescue
       @errors.push("URL is invalid")
-      erb :new_tile_json, :layout => :simple_layout
+      erb :new_tile_json
     end 
   end
 
