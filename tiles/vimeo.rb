@@ -3,7 +3,6 @@ require_relative 'tile.rb'
 class Vimeo < Tile
 
   attr_accessor :url
-  attr_accessor :template
 
   def initialize(video_id)
     @url = "//player.vimeo.com/video/" + video_id
@@ -22,3 +21,4 @@ class Vimeo < Tile
   end
 
 end
+

@@ -6,6 +6,7 @@ require 'sinatra/reloader' if development?
 
 require_relative 'tiles/vimeo.rb'
 require_relative 'tiles/json_tile.rb'
+require_relative 'tiles/iframe.rb'
 
 tiles = []
 
@@ -24,6 +25,19 @@ end
 
 get '/new_tile/json' do
   erb :new_tile_json, :layout => :simple_layout
+end
+
+get '/new_tile/iframe' do
+  erb :new_tile_iframe, :layout => :simple_layout
+end
+
+post '/new_tile/iframe' do
+  url = params[:embed_url]
+  height = params[:embed_height]
+  width = params[:embed_width]
+  iframe = IFrame.new(url, width, height)
+  tiles.push(iframe)
+  redirect to '/dashboard'
 end
 
 post '/new_tile/vimeo' do

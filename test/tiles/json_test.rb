@@ -4,17 +4,8 @@ require "minitest/autorun"
 
 require_relative '../../tiles/json_tile'
 require_relative '../../tasks/http_resource'
+require_relative '../mocks/fake_response'
 
-class FakeResponse
-  attr_reader :code
-  attr_reader :body
-  def initialize(body, code)
-    @code = code.to_s
-    @body = body.to_s
-  end
-
-
-end
 
 describe JSONTile do
 
@@ -60,11 +51,3 @@ def generate_json_tile
     return json_tile
   end
 end
-
-# def generate_json_tile
-#   http_resource = HttpResource.new
-#   http_resource.stub :fetch, json_data do
-#     json_tile = JSONTile.new("http://www.testurl.com")
-#   end
-#   json_tile
-# end
