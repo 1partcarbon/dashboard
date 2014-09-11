@@ -4,9 +4,7 @@ require 'bundler/setup'
 require 'sinatra'
 require 'sinatra/reloader' if development?
 
-require_relative 'tiles/vimeo.rb'
-require_relative 'tiles/json_tile.rb'
-require_relative 'tiles/iframe.rb'
+Dir["tiles/*"].each {|file| require_relative file }
 
 class Main < Sinatra::Base
 
