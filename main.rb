@@ -61,9 +61,20 @@ class Main < Sinatra::Base
   end
 
   post '/edit_tile/:type' do |t|
-    index = params[:index].to_i
-    tile = tiles[index].edit(params)
-    redirect to '/dashboard'
+    begin
+      index = params[:index].to_i
+      old_tile = tiles[index]
+      @tile = tiles[index].edit(params)
+      redirect to '/dashboard'
+    rescue URI::InvalidURIError
+      @errors.push("URL is invalid")
+      @tile = old_tile
+      display_edit_tile_erb(t)
+    rescue Dashboard::InvalidEndpointError
+      @errors.push("JSON is invalid, try checking your url")
+      @tile = old_tile
+      display_edit_tile_erb(t)
+    end
   end
 
   after do
@@ -74,13 +85,6 @@ class Main < Sinatra::Base
     tile = TileManager.create_tile(params, type)
     if tile != nil
       tiles.push(tile)
-    end
-  end
-
-  def update_tile(params, type, index)
-    tile = TileManager.create_tile(params, type)
-    if tile != nil
-      tiles.insert(index, tile)
     end
   end
 
