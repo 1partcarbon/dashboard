@@ -31,14 +31,6 @@ describe Main do
     end
   end
 
-  describe 'clicking a remove link' do
-    it 'should remove the element from the tile array' do
-      params = {:video_id => '123456'}
-      app.helpers.tiles = [Vimeo.new(params)]
-      get '/remove_tile?index=0'
-      assert_equal 0, app.helpers.tiles.count
-    end
-  end
 
   describe 'adding a new json tile' do
     it 'should add a new json tile to the array' do
@@ -58,6 +50,15 @@ describe Main do
       assert_equal (size + 1) , app.helpers.tiles.count
     end      
   end 
+
+  describe 'clicking a remove link' do
+    it 'should remove the vimeo element from the tile array' do
+      params = {:video_id => '123456'}
+      app.helpers.tiles = [Vimeo.new(params)]
+      get '/remove_tile?index=0'
+      assert_equal 0, app.helpers.tiles.count
+    end
+  end
 
   describe 'editing a vimeo tile' do
     it 'should update the values of the associated tile' do

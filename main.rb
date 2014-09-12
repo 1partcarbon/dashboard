@@ -34,11 +34,6 @@ class Main < Sinatra::Base
     display_new_tile_erb(t)
   end
 
-  get '/remove_tile' do
-    index = params[:index].to_i
-    remove_tile(index)
-    redirect to '/dashboard'
-  end
 
   post '/new_tile/:type' do |t|
     begin 
@@ -53,6 +48,24 @@ class Main < Sinatra::Base
     end
   end
 
+  get '/remove_tile' do
+    index = params[:index].to_i
+    remove_tile(index)
+    redirect to '/dashboard'
+  end
+
+  get '/edit_tile/:type' do |t|
+    index = params[:index].to_i
+    @tile = tiles[index]
+    display_edit_tile_erb(t)
+  end
+
+  post '/edit_tile/:type' do |t|
+    index = params[:index].to_i
+    tile = tiles[index].edit(params)
+    redirect to '/dashboard'
+  end
+
   after do
     @errors.clear
   end
@@ -61,6 +74,13 @@ class Main < Sinatra::Base
     tile = TileManager.create_tile(params, type)
     if tile != nil
       tiles.push(tile)
+    end
+  end
+
+  def update_tile(params, type, index)
+    tile = TileManager.create_tile(params, type)
+    if tile != nil
+      tiles.insert(index, tile)
     end
   end
 
@@ -82,4 +102,16 @@ class Main < Sinatra::Base
       erb :new_tile_iframe
     end
   end
+
+  def display_edit_tile_erb(type)
+    case type
+    when 'vimeo'
+      erb :edit_tile_vimeo
+    when 'jsontile'
+      erb :edit_tile_json
+    when 'iframe'
+      erb :edit_tile_iframe
+    end 
+  end
+
 end
