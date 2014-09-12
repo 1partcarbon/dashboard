@@ -5,4 +5,5 @@
   <% @tiles_to_display.each_with_index do |tile, index| %>
     <%= tile.display %>
   <a href="/remove_tile?index=<%=index%>">Remove tile</a><br>
+  <a href="/edit_tile/<%= tile.class.to_s.downcase %>?index=<%=index%>">Edit tile</a><br>
   <% end %>

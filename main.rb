@@ -78,6 +78,8 @@ class Main < Sinatra::Base
     end 
   end
 
+  
+
   def add_tile(tile)
     tiles.push(tile)
   end
@@ -89,5 +91,7 @@ class Main < Sinatra::Base
   def delete_all
     tiles = []
   end
+
+  
 
 end
