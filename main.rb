@@ -52,7 +52,7 @@ class Main < Sinatra::Base
       display_new_tile_erb(t)
     end
   end
-
+  
   after do
     @errors.clear
   end
@@ -82,5 +82,4 @@ class Main < Sinatra::Base
       erb :new_tile_iframe
     end
   end
-
 end
