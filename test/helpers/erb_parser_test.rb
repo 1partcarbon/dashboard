@@ -2,7 +2,7 @@ require 'minitest'
 require 'minitest/spec'
 require 'minitest/autorun'
 
-require_relative './../helpers/erb_parser'
+require_relative './../../helpers/erb_parser'
 
 describe ERBParser do
   describe 'parse' do

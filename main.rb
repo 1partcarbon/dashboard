@@ -5,10 +5,9 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 
 Dir["tiles/*"].each {|file| require_relative file }
+require_relative 'helpers/tile_factory'
 
 class Main < Sinatra::Base
-
- #set :tiles, Array.new
 
   attr_accessor :tiles
 
@@ -18,8 +17,8 @@ class Main < Sinatra::Base
     super
   end
 
-  after do
-    @errors.clear
+  get '/' do 
+    redirect to '/dashboard'
   end
 
   get '/dashboard' do
@@ -31,16 +30,8 @@ class Main < Sinatra::Base
     erb :new_tile
   end
 
-  get '/new_tile/vimeo' do
-    erb :new_tile_vimeo
-  end
-
-  get '/new_tile/json' do
-    erb :new_tile_json
-  end
-
-  get '/new_tile/iframe' do
-    erb :new_tile_iframe
+  get '/new_tile/:type' do |t|
+    display_new_tile_erb(t)
   end
 
   get '/remove_tile' do
@@ -49,37 +40,28 @@ class Main < Sinatra::Base
     redirect to '/dashboard'
   end
 
-  post '/new_tile/iframe' do
-    url = params[:embed_url]
-    height = params[:embed_height]
-    width = params[:embed_width]
-    iframe = IFrame.new(url, width, height)
-    add_tile(iframe)
-    redirect to '/dashboard'
-  end
-
-   post '/new_tile/vimeo' do
-    id = params[:video_id]
-    vimeo = Vimeo.new(id)
-    add_tile(vimeo)
-
-    redirect to '/dashboard'
-  end
-
-  post '/new_tile/json' do
-    url = params[:json_url]
+  post '/new_tile/:type' do |t|
     begin 
-      json = JSONTile.new(url)
-      add_tile(json)
+      add_tile(params, t)
       redirect to '/dashboard'
-    rescue
+    rescue URI::InvalidURIError
       @errors.push("URL is invalid")
-      erb :new_tile_json
-    end 
+      display_new_tile_erb(t)
+    rescue Dashboard::InvalidEndpointError
+      @errors.push("JSON is invalid, try checking your url")
+      display_new_tile_erb(t)
+    end
   end
 
-  def add_tile(tile)
-    tiles.push(tile)
+  after do
+    @errors.clear
+  end
+
+  def add_tile(params, type)
+    tile = TileFactory.create_tile(params, type)
+    if tile != nil
+      tiles.push(tile)
+    end
   end
 
   def remove_tile(index)
@@ -88,6 +70,17 @@ class Main < Sinatra::Base
 
   def delete_all
     tiles = []
+  end
+
+  def display_new_tile_erb(type)
+    case type
+    when 'vimeo'
+      erb :new_tile_vimeo
+    when 'jsontile'
+      erb :new_tile_json
+    when 'iframe'
+      erb :new_tile_iframe
+    end
   end
 
 end

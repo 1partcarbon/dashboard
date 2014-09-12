@@ -2,8 +2,8 @@ require 'minitest'
 require 'minitest/spec'
 require 'minitest/autorun'
 
-require_relative './../helpers/http_resource'
-require_relative 'mocks/fake_response'
+require_relative './../../helpers/http_resource'
+require_relative '../mocks/fake_response'
 
 
 describe HttpResource do

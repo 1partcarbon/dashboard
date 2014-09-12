@@ -44,7 +44,7 @@ describe Main do
       size = app.helpers.tiles.count  
       response = FakeResponse.new(json_data, 200) 
       Net::HTTP.stub :get_response, response do
-        post '/new_tile/json', params = {:json_url => 'www.test.com'}
+        post '/new_tile/jsontile', params = {:json_url => 'www.test.com'}
         assert_equal (size + 1) , app.helpers.tiles.count
       end
     end
