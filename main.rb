@@ -5,7 +5,7 @@ require 'sinatra'
 require 'sinatra/reloader' if development?
 
 Dir["tiles/*"].each {|file| require_relative file }
-require_relative 'helpers/tile_factory'
+require_relative 'helpers/tile_manager'
 
 class Main < Sinatra::Base
 
@@ -52,13 +52,13 @@ class Main < Sinatra::Base
       display_new_tile_erb(t)
     end
   end
-  
+
   after do
     @errors.clear
   end
 
   def add_tile(params, type)
-    tile = TileFactory.create_tile(params, type)
+    tile = TileManager.create_tile(params, type)
     if tile != nil
       tiles.push(tile)
     end

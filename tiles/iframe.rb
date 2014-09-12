@@ -4,14 +4,18 @@ class IFrame < Tile
 
   attr_accessor :url, :width, :height
 
-  def initialize(url, width, height)
-    @url = url
-    @width = width
-    @height = height
+  def initialize(params)
+    edit(params)
   end
 
   def update
     
+  end
+
+  def edit(params)
+    @url = params[:embed_url]
+    @width = params[:embed_width]
+    @height = params[:embed_height]
   end
 
   def display

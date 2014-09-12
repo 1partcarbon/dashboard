@@ -33,7 +33,8 @@ describe Main do
 
   describe 'clicking a remove link' do
     it 'should remove the element from the tile array' do
-      app.helpers.tiles = [Vimeo.new("2343543")]
+      params = {:video_id => '123456'}
+      app.helpers.tiles = [Vimeo.new(params)]
       get '/remove_tile?index=0'
       assert_equal 0, app.helpers.tiles.count
     end
@@ -60,7 +61,8 @@ describe Main do
 
   describe 'editing a vimeo tile' do
     it 'should update the values of the associated tile' do
-      app.helpers.tiles = [Vimeo.new("2343543")] 
+      params = {:video_id => '123456'}
+      app.helpers.tiles = [Vimeo.new(params)]
       post '/edit_tile/vimeo', params = {:video_id => '09876', :index => 0}
       assert_equal '//player.vimeo.com/video/09876', app.helpers.tiles[0].url
     end

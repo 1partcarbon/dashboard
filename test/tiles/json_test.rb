@@ -10,6 +10,8 @@ describe JSONTile do
 
   let(:json_data) { File.read(File.expand_path("test/fixtures/get_data.json"))} 
   let(:updated_data) { File.read(File.expand_path("test/fixtures/updated_data.json"))} 
+  let(:params) {{:json_url => 'example.com'}}
+  let(:edit_params) {{:json_url => 'www.updatedurl.com'}}
 
   describe 'intiailize' do 
     it 'assigns the tile a url' do
@@ -40,13 +42,24 @@ describe JSONTile do
       assert_includes json_tile.display, '<li>Test: Test string</li>'
     end
   end
-end
 
+  describe 'edit' do
+    it 'should update the value of the url' do
+      json_tile = generate_json_tile
+      response = FakeResponse.new(updated_data, 200) 
+      Net::HTTP.stub :get_response, response do       
+        json_tile.edit(edit_params)
+        assert_equal 'www.updatedurl.com', json_tile.url
+      end
+    end
+  end
+
+end
 
 def generate_json_tile
   response = FakeResponse.new(json_data, 200) 
   Net::HTTP.stub :get_response, response do
-    json_tile = JSONTile.new("example.com")
+    json_tile = JSONTile.new(params)
     return json_tile
   end
 end

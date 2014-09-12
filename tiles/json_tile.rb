@@ -6,9 +6,8 @@ class JSONTile < Tile
   attr_accessor :url
   attr_accessor :objects
 
-  def initialize(url)
-    @url = url
-    update
+  def initialize(params)
+    edit(params)
   end
 
   def update
@@ -23,5 +22,10 @@ class JSONTile < Tile
   def display
     context = {:objects => @objects}
     ERBParser.parse(context, "views/tiles/json.erb")
+  end
+
+  def edit(params)
+    @url = params[:json_url].to_s
+    update
   end
 end
