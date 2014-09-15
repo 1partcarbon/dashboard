@@ -51,6 +51,14 @@ describe Main do
     end      
   end 
 
+  describe 'adding a new time tile' do
+    it 'should add a new time tile to the array' do
+      size = app.helpers.tiles.count
+      post 'new_tile/timetile'
+      assert_equal (size + 1), app.helpers.tiles.count
+    end
+  end
+
   describe 'clicking a remove link' do
     it 'should remove the vimeo element from the tile array' do
       params = {:video_id => '123456'}
