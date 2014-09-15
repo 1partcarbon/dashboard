@@ -2,7 +2,7 @@
 
 ###Objectives
 ---
-**This repo aims at developing a customizable dashboard to display real time data from third-party API.**
+This repo aims at developing a customizable dashboard to display real time data from third-party API.
 
 ###Tools
 ---
