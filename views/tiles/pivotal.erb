@@ -1,0 +1,11 @@
+<ul>
+  <% @objects.each do |items| %>
+    <% items.keys.each do |k|  %>
+      <li><%= k %>: <%= items[k] %></li>
+    <% end %>
+    <br>
+  <% end %>
+</ul>
+
+
+

@@ -39,7 +39,10 @@ describe JSONTile do
   describe 'display' do
     it 'should render the json erb' do
       json_tile = generate_json_tile
-      assert_includes json_tile.display, '<li>Test: Test string</li>'
+      response = FakeResponse.new(json_data, 200) 
+      Net::HTTP.stub :get_response, response do
+        assert_includes json_tile.display, '<li>Test: Test string</li>'
+      end
     end
   end
 
