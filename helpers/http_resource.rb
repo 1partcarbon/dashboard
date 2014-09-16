@@ -16,8 +16,7 @@ class HttpResource
 
   end
 
-  def fetch_with_token(url, token_name, token)
-    headers = {token_name.to_s => token.to_s}
+  def fetch_with_token(url, headers)
     uri = URI.parse(url)
     begin
       http = Net::HTTP.new(uri.host, uri.port)
