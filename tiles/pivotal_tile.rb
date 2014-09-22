@@ -3,6 +3,7 @@ require_relative '../helpers/http_resource'
 
 class PivotalTile < JSONTile
   attr_accessor :token
+  attr_accessor :objects
 
   def update
     headers = {"X-TrackerToken" => @token.to_s}

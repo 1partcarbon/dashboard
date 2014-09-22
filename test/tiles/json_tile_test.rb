@@ -56,7 +56,6 @@ describe JSONTile do
       end
     end
   end
-
 end
 
 def generate_json_tile
