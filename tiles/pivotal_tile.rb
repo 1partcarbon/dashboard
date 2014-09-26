@@ -8,6 +8,8 @@ class PivotalTile < JSONTile
   attr_accessor :type
   attr_accessor :stories_for_owners
   attr_accessor :grouped_stories
+  attr_accessor :time_before
+  attr_accessor :time_after
 
   def update
     headers = {"X-TrackerToken" => @token.to_s}
@@ -40,11 +42,12 @@ class PivotalTile < JSONTile
   def edit(params)
     project_id = params[:pivotal_project_id].to_s
     action_after = params[:pivotal_action_after].to_s
-    time_after = params[:pivotal_time_after].to_s
+    @time_after = params[:pivotal_time_after].to_s
     action_before = params[:pivotal_action_before].to_s
-    time_before = params[:pivotal_time_before].to_s
+    @time_before = params[:pivotal_time_before].to_s
 
-    @url = "https://www.pivotaltracker.com/services/v5/projects/#{project_id}/stories?#{action_after}=#{time_after}T00:00:00Z&#{action_before}=#{time_before}T00:00:00Z"
+
+    @url = "https://www.pivotaltracker.com/services/v5/projects/#{project_id}/stories?#{action_after}=#{@time_after}T00:00:00Z&#{action_before}=#{@time_before}T00:00:00Z"
     @token = params[:pivotal_token].to_s
     @type = params[:pivotal_type].to_s
     update
