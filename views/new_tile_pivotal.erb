@@ -1,9 +1,24 @@
 <h3>New pivotal tile</h3>
 <form method="post">
-  Data url: <input type="text" name="pivotal_url"><br>
-  Token: <input type="text" name="pivotal_token"><br>
-  Type: <input type="radio" name="pivotal_type" value="members_stories">Members stories
-      <input type="radio" name="pivotal_type" value="stories_by_state">Stories by status
-      <input type="radio" name="pivotal_type" value="json_format">JSON format<br>
-  <input type="submit" value="Submit">
+  Project:      <select name="pivotal_project_id">
+                  <option value="813937" selected="selected">Sailfish</option>
+                </select><br>
+
+  Stories:      <select name="pivotal_action_after">
+                  <option value="created_after" selected="selected">created</option>
+                  <option value="updated_after">updated</option>
+                </select>
+  after:         <input type="date" name="pivotal_time_after" min="2012-01-01"  max=<%= PivotalTile.time_now %>><br>
+
+  Stories:      <select name="pivotal_action_before">
+                  <option value="created_before" selected="selected">created</option>
+                  <option value="updated_before">updated</option>
+                </select>
+  before:       <input type="date" name="pivotal_time_before" min="2012-01-01" max= <%= PivotalTile.time_now %>><br>
+
+  Token:        <input type="text" name="pivotal_token"><br>
+  Type:         <input type="radio" name="pivotal_type" value="members_stories">Members stories
+                <input type="radio" name="pivotal_type" value="stories_by_state" checked="checked">Stories by state
+                <input type="radio" name="pivotal_type" value="json_format">JSON format<br>
+                <input type="submit" value="Submit">
 </form>
