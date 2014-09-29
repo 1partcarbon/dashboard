@@ -12,6 +12,10 @@ class TileManager
         tile = IFrame.new(params)
       when 'jsontile'
         tile = JSONTile.new(params)
+      when 'timetile'
+        tile = TimeTile.new
+      when 'pivotaltile'
+        tile = PivotalTile.new(params)
       end
     rescue Exception => e  
         raise e

@@ -30,6 +30,10 @@ class Main < Sinatra::Base
     erb :new_tile
   end
 
+  get '/spike' do
+    erb :spike_dashboard
+  end
+
   get '/new_tile/:type' do |t|
     display_new_tile_erb(t)
   end
@@ -104,6 +108,10 @@ class Main < Sinatra::Base
       erb :new_tile_json
     when 'iframe'
       erb :new_tile_iframe
+    when 'timetile'
+      erb :new_tile_time
+    when 'pivotaltile'
+      erb :new_tile_pivotal
     end
   end
 
@@ -115,6 +123,8 @@ class Main < Sinatra::Base
       erb :edit_tile_json
     when 'iframe'
       erb :edit_tile_iframe
+    when 'pivotaltile'
+      erb :edit_tile_pivotal
     end 
   end
 
