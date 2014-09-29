@@ -1,10 +1,10 @@
 <!-- <meta http-equiv="refresh" content="0.3" /> -->
   <div>
     <a href="/new_tile">Add new tile</a>
-  </div> 
+  </div>
 
   <% @tiles_to_display.each_with_index do |tile, index| %>
-    <%= tile.display %>
+    <%= tile.display(index) %>
   <a href="/remove_tile?index=<%=index%>">Remove tile</a><br>
   <% if tile.editable? %>
    <a href="/edit_tile/<%= tile.class.to_s.downcase %>?index=<%=index%>">Edit tile</a><br>

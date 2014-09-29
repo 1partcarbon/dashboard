@@ -19,7 +19,7 @@ class JSONTile < Tile
     end
   end
 
-  def display
+  def display(index)
     update
     context = {:objects => @objects}
     ERBParser.parse(context, "views/tiles/json.erb")

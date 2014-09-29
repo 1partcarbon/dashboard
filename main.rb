@@ -11,13 +11,17 @@ class Main < Sinatra::Base
 
   attr_accessor :tiles
 
+  def self.env
+    { :pivotal_token => '911f87a7a91f7465ef00d89d9cb8edc3'}
+  end
+
   def initialize
     @tiles = []
     @errors = []
     super
   end
 
-  get '/' do 
+  get '/' do
     redirect to '/dashboard'
   end
 
@@ -40,7 +44,7 @@ class Main < Sinatra::Base
 
 
   post '/new_tile/:type' do |t|
-    begin 
+    begin
       add_tile(params, t)
       redirect to '/dashboard'
     rescue URI::InvalidURIError
@@ -85,6 +89,10 @@ class Main < Sinatra::Base
     @errors.clear
   end
 
+  get '/settings' do
+    erb :settings
+  end
+
   def add_tile(params, type)
     tile = TileManager.create_tile(params, type)
     if tile != nil
@@ -125,7 +133,7 @@ class Main < Sinatra::Base
       erb :edit_tile_iframe
     when 'pivotaltile'
       erb :edit_tile_pivotal
-    end 
+    end
   end
 
 end

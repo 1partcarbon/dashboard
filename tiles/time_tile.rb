@@ -5,7 +5,7 @@ class TimeTile < Tile
   def intialize
   end
 
-  def display
+  def display(index)
     context = {:time => Time.now.getgm}
     ERBParser.parse(context, 'views/tiles/time.erb')
   end

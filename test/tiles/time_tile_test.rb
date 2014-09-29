@@ -7,7 +7,7 @@ describe TimeTile do
   describe 'display' do
     it 'should render the time tile erb' do
       time_tile = TimeTile.new
-      assert_includes time_tile.display, 'UTC</p>'
+      assert_includes time_tile.display(0), 'UTC</p>'
     end
   end
 

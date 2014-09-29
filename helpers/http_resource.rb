@@ -13,7 +13,6 @@ class HttpResource
       raise Dashboard::InvalidEndpointError
     end
     response.code == "200" ? response : false
-
   end
 
   def fetch_with_token(url, headers)
@@ -40,6 +39,3 @@ private
   end
 
 end
-
-
-

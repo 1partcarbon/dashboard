@@ -9,7 +9,7 @@ class IFrame < Tile
   end
 
   def update
-    
+
   end
 
   def edit(params)
@@ -18,10 +18,9 @@ class IFrame < Tile
     @height = params[:embed_height].to_i
   end
 
-  def display
+  def display(index)
     context = {:url => @url, :height => @height, :width => @width}
     ERBParser.parse(context, 'views/tiles/iframe.erb')
   end
 
 end
-
