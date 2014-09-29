@@ -1,11 +1,11 @@
 <% case @type
    when "members_stories" %>
-  <div id="chart"></div>
+  <div id="bar_chart"></div>
    <script type="text/javascript">
     var w = 500,
         h = 150;
 
-    var svg = d3.select("#chart")
+    var svg = d3.select("#bar_chart")
       .append("svg")
       .attr("width", w)
       .attr("height", h);
@@ -48,6 +48,7 @@
     </script> 
 
 <% when "stories_by_state" %>
+<div id="collapsible_tree"></div>
 <script >
   var data = <%= @grouped_stories.to_json %>;
 
@@ -93,7 +94,7 @@
   var diagonal = d3.svg.diagonal()
       .projection(function(d) { return [d.y, d.x]; });
 
-  var svg = d3.select("section").append("svg")
+  var svg = d3.select("#collapsible_tree").append("svg")
       .attr("width", width + margin.left + margin.right)
     .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
