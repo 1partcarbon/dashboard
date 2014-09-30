@@ -5,6 +5,7 @@
       memberStories(<%= @stories.to_json %>);
     </script>
 
+
 <% when "stories_by_state" %>
   <script >
     drawStoryTree(<%= @stories.to_json %>, <%= @index %>)
@@ -16,4 +17,12 @@
       <li><%= k %>: <%= @story[k] %></li>
    <% end %>
  </ul>
+
+ <% when "state_filtered" %>
+  <ul>
+    <% @stories.each do |story| %>
+      <li> <%= Rack::Utils.escape_html(story['name']) %> </li>
+    <% end %>
+  </ul>
+
 <% end %>

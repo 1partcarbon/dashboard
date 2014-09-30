@@ -9,8 +9,15 @@ class PivotalTile < Tile
   attr_accessor :time_after
   attr_accessor :project_id
   attr_accessor :counter
+  attr_accessor :story_state
   attr_reader :url
+  attr_reader :story_states
 
+  STORY_STATES = ["accepted", "delivered", "finished", "started", "rejected", "planned", "unstarted", "unscheduled"]
+
+  def story_states
+    STORY_STATES
+  end
 
   def initialize(params)
     edit(params)
@@ -25,7 +32,7 @@ class PivotalTile < Tile
       @stories = Pivotal.calculate_stories_for_owners(objects)
     when "stories_by_state"
       @stories =  Pivotal.classify_stories_by_state(objects)
-    when "tick_stories"
+    else
       @stories = Pivotal.insert_into_array(objects)
     end
   end
@@ -53,9 +60,27 @@ class PivotalTile < Tile
     action_before = params[:pivotal_action_before].to_s
     @time_before = params[:pivotal_time_before].to_s
 
+    puts params
 
-    @url = "https://www.pivotaltracker.com/services/v5/projects/#{@project_id}/stories?#{action_after}=#{@time_after}T00:00:00Z&#{action_before}=#{@time_before}T00:00:00Z"
+    @story_state = params[:pivotal_story_state]
+
+
     @type = params[:pivotal_type].to_s
+
+    case @type
+    when 'state_filtered'
+      @url = "https://www.pivotaltracker.com/services/v5/projects/#{@project_id}/stories?with_state=#{@story_state}"
+      if @time_after != nil && !@time_after.empty?
+        @url = @url + "&#{action_after}=#{@time_after}T00:00:00Z"
+      end
+      if @time_before != nil && !@time_before.empty?
+        @url = @url + "&#{action_before}=#{@time_before}T00:00:00Z"
+      end
+    else
+      @url = "https://www.pivotaltracker.com/services/v5/projects/#{@project_id}/stories?#{action_after}=#{@time_after}T00:00:00Z&#{action_before}=#{@time_before}T00:00:00Z"
+    end
+
+    puts "********************************* #{@url}"
     update
   end
 
