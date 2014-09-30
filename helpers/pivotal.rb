@@ -35,16 +35,6 @@ class Pivotal
     grouped_stories
   end
 
-  def self.item(current_status, name, option)
-    if option.eql?("state")
-      { "category"=> "Grouped by state", "status"=> current_status , "name"=> name }
-    elsif option.eql?("labels")
-      { "category"=> "Grouped by labels", "status"=> current_status , "name"=> name }
-    else
-      return
-    end
-  end
-
   def self.pivotal_update(url)
     headers = {"X-TrackerToken" => Main.env_params[:pivotal_token]}
     data = HttpResource.new.fetch_with_token(url, headers)
@@ -68,15 +58,7 @@ class Pivotal
     sort_projects(objects)
   end
 
-  def self.sort_projects(objects)
-    projects = []
-    objects.each do |items|
-      if items.has_key?("id") && items.has_key?("name")
-        projects.push({"id" => items["id"], "name" => items["name"] })
-      end
-    end
-    projects
-  end
+
 
   def self.insert_into_array(objects)
     stories = []
@@ -85,5 +67,26 @@ class Pivotal
     end
     stories
   end
+
+  private
+    def self.item(current_status, name, option)
+      if option.eql?("state")
+        { "category"=> "Grouped by state", "status"=> current_status , "name"=> name }
+      elsif option.eql?("labels")
+        { "category"=> "Grouped by labels", "status"=> current_status , "name"=> name }
+      else
+        return
+      end
+    end
+
+    def self.sort_projects(objects)
+      projects = []
+      objects.each do |items|
+        if items.has_key?("id") && items.has_key?("name")
+          projects.push({"id" => items["id"], "name" => items["name"] })
+        end
+      end
+      projects
+    end
 
 end
