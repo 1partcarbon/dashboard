@@ -1,7 +1,7 @@
 <h3>Edit pivotal tile</h3>
 <form method="post">
   Project:      <select name="pivotal_project_id">
-                <% Pivotal.get_projects.each do |project| %>
+                <% @projects.each do |project| %>
                   <option value=<%= project["id"] %> <% if @tile.project_id.to_s == project["id"].to_s %> selected="selected" <% end %>><%= project["name"] %></option>
                 <% end %>
                 </select><br>
@@ -22,8 +22,8 @@
                 </select>
   before:       <input type="date" name="pivotal_time_before" min="2012-01-01" max=<%= PivotalTile.time_now %> value=<%= @tile.time_before %>><br>
 
-  Token:        <input type="text" name="pivotal_token" value=<%= @tile.token %>><br>
   Type:         <input type="radio" name="pivotal_type" value="members_stories">Members stories
-                <input type="radio" name="pivotal_type" value="stories_by_state" checked="checked">Stories by state<br>
+                <input type="radio" name="pivotal_type" value="stories_by_state" checked="checked">Stories by state
+                <input type="radio" name="pivotal_type" value="tick_stories" checked="checked">Story Ticker<br>
                 <input type="submit" value="Submit">
 </form>

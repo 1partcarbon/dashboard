@@ -2,7 +2,7 @@
    when "members_stories" %>
   <div id="chart"></div>
     <script type="text/javascript">
-      memberStories( <%= @stories.to_json %>);
+      memberStories(<%= @stories.to_json %>);
     </script>
 
 <% when "stories_by_state" %>
@@ -10,4 +10,10 @@
     drawStoryTree(<%= @stories.to_json %>, <%= @index %>)
   </script>
 
+<% when "tick_stories" %>
+  <ul>
+  <% @story.keys.each do |k|  %>
+      <li><%= k %>: <%= @story[k] %></li>
+   <% end %>
+ </ul>
 <% end %>

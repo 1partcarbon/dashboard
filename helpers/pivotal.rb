@@ -45,8 +45,8 @@ class Pivotal
     end
   end
 
-  def self.pivotal_update(token,url)
-    headers = {"X-TrackerToken" => Main.env[:pivotal_token]}
+  def self.pivotal_update(url)
+    headers = {"X-TrackerToken" => Main.env_params[:pivotal_token]}
     data = HttpResource.new.fetch_with_token(url, headers)
     if !data
       objects = {}
@@ -57,7 +57,7 @@ class Pivotal
 
   def self.get_projects
     url = "https://www.pivotaltracker.com/services/v5/projects/"
-    headers = {"X-TrackerToken" => Main.env[:pivotal_token]}
+    headers = {"X-TrackerToken" => Main.env_params[:pivotal_token]}
     data = HttpResource.new.fetch_with_token(url, headers)
     objects = nil
     if !data
@@ -76,6 +76,14 @@ class Pivotal
       end
     end
     projects
+  end
+
+  def self.insert_into_array(objects)
+    stories = []
+    objects.each do |item|
+      stories.push(item)
+    end
+    stories
   end
 
 end

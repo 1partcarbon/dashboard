@@ -11,8 +11,14 @@ class Main < Sinatra::Base
 
   attr_accessor :tiles
 
-  def self.env
-    { :pivotal_token => '911f87a7a91f7465ef00d89d9cb8edc3'}
+  @@env = { pivotal_token:  '911f87a7a91f7465ef00d89d9cb8edc3'}
+
+  def self.env_params
+    @@env
+  end
+
+  def self.update_env(params)
+    @@env = params
   end
 
   def initialize
@@ -90,7 +96,13 @@ class Main < Sinatra::Base
   end
 
   get '/settings' do
+    @env = @@env
     erb :settings
+  end
+
+  post '/settings' do
+  	@@env = params
+    redirect to '/dashboard'
   end
 
   def add_tile(params, type)
@@ -119,6 +131,7 @@ class Main < Sinatra::Base
     when 'timetile'
       erb :new_tile_time
     when 'pivotaltile'
+      @projects = Pivotal.get_projects
       erb :new_tile_pivotal
     end
   end
@@ -132,6 +145,7 @@ class Main < Sinatra::Base
     when 'iframe'
       erb :edit_tile_iframe
     when 'pivotaltile'
+      @projects = Pivotal.get_projects
       erb :edit_tile_pivotal
     end
   end
