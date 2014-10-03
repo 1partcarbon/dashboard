@@ -7,19 +7,19 @@
                 </select><br>
 
   Stories:      <select name="pivotal_action_after">
-                  <option value="created_after" selected="selected">created</option>
-                  <option value="updated_after">updated</option>
-                  <option value="accepted_after">accepted</option>
-                  <option value="deadline_after">deadline</option>
+                  <% @tile.story_actions.each do |action| %>
+                    <option <% if "#{action}_after" == @tile.action_after %> selected="selected" <% end %> value="<%= action %>_after" ><%= action %></option>
+                  <% end %>
                 </select>
+
   after:         <input type="date" name="pivotal_time_after" min="2012-01-01" max=<%= PivotalTile.time_now %> value=<%= @tile.time_after %>><br>
 
   Stories:      <select name="pivotal_action_before">
-                  <option value="created_before" selected="selected">created</option>
-                  <option value="updated_before">updated</option>
-                  <option value="accepted_before">accepted</option>
-                  <option value="deadline_before">deadline</option>
+                  <% @tile.story_actions.each do |action| %>
+                    <option <% if "#{action}_before" == @tile.action_before %> selected="selected" <% end %> value="<%= action %>_before" ><%= action %></option>
+                  <% end %>
                 </select>
+
   before:       <input type="date" name="pivotal_time_before" min="2012-01-01" max=<%= PivotalTile.time_now %> value=<%= @tile.time_before %>><br>
 
   With state:   <select name="pivotal_story_state">
@@ -34,5 +34,5 @@
                 <input type="radio" name="pivotal_type" value="tick_stories">Story Ticker
                 <input type="radio" name="pivotal_type" value="state_filtered" checked="checked">Filter by state<br>
                 <input type="submit" value="Submit">
-                
+
 </form>

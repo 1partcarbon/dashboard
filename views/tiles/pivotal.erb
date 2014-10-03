@@ -19,6 +19,7 @@
  </ul>
 
  <% when "state_filtered" %>
+  <h3><%= @story_state.capitalize %> stories:</h3>
   <ul>
     <% @stories.each do |story| %>
       <li> <%= Rack::Utils.escape_html(story['name']) %> </li>

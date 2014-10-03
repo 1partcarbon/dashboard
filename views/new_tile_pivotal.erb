@@ -7,31 +7,24 @@
                 </select><br>
 
   Stories:      <select name="pivotal_action_after">
-                  <option value="created_after" selected="selected">created</option>
-                  <option value="updated_after">updated</option>
-                  <option value="accepted_after">accepted</option>
-                  <option value="deadline_after">deadline</option>
+                <% @tile.story_actions.each do |action| %>
+                    <option <% if "#{action}_after" == @tile.action_after %> selected="selected" <% end %> value="<%= action %>_after" ><%= action %></option>
+                  <% end %>
                 </select>
   after:         <input type="date" name="pivotal_time_after" min="2012-01-01" max=<%= PivotalTile.time_now %>><br>
 
   Stories:      <select name="pivotal_action_before">
-                  <option value="created_before" selected="selected">created</option>
-                  <option value="updated_before">updated</option>
-                  <option value="accepted_before">accepted</option>
-                  <option value="deadline_before">deadline</option>
+                <% @tile.story_actions.each do |action| %>
+                    <option <% if "#{action}_before" == @tile.action_before %> selected="selected" <% end %> value="<%= action %>_before" ><%= action %></option>
+                  <% end %>
                 </select>
   before:       <input type="date" name="pivotal_time_before" min="2012-01-01" max= <%= PivotalTile.time_now %>><br>
 
 
   With state:   <select name="pivotal_story_state">
-                  <option>accepted</option>
-                  <option>delivered</option>
-                  <option>finished</option>
-                  <option>started</option>
-                  <option>rejected</option>
-                  <option>planned</option>
-                  <option>unstarted</option>
-                  <option>unscheduled</option>
+                <% @tile.story_states.each do |state| %>
+                    <option <% if state == @tile.story_state %> selected="selected" <% end %> ><%= state %></option>
+                  <% end %>
                 </select> <br>
 
   Type:         <input type="radio" name="pivotal_type" value="members_stories">Members stories

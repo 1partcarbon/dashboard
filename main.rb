@@ -132,6 +132,7 @@ class Main < Sinatra::Base
       erb :new_tile_time
     when 'pivotaltile'
       @projects = Pivotal.get_projects
+      @tile = PivotalTile.new({})
       erb :new_tile_pivotal
     end
   end
