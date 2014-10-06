@@ -37,7 +37,7 @@ class Pivotal
 
   def self.pivotal_update(url)
     headers = {"X-TrackerToken" => Main.env_params[:pivotal_token]}
-    data = HttpResource.new.fetch_with_token(url, headers)
+    data = HttpResource.new(url, headers).get
     if !data
       objects = {}
     else
@@ -48,7 +48,7 @@ class Pivotal
   def self.get_projects
     url = "https://www.pivotaltracker.com/services/v5/projects/"
     headers = {"X-TrackerToken" => Main.env_params[:pivotal_token]}
-    data = HttpResource.new.fetch_with_token(url, headers)
+    data = HttpResource.new(url, headers).get
     objects = nil
     if !data
       objects = {}

@@ -3,7 +3,6 @@ require 'bundler/setup'
 
 require 'sinatra'
 require 'sinatra/reloader' if development?
-require 'pry'
 
 Dir["tiles/*"].each {|file| require_relative file }
 require_relative 'helpers/tile_manager'
@@ -52,7 +51,6 @@ class Main < Sinatra::Base
 
   post '/new_tile/:type' do |t|
     begin
-      #binding.pry
       add_tile(params, t)
       redirect to '/dashboard'
     rescue URI::InvalidURIError
@@ -80,7 +78,8 @@ class Main < Sinatra::Base
     begin
       index = params[:index].to_i
       old_tile = tiles[index]
-      @tile = tiles[index].edit(params)
+      @tile = tiles[index]
+      @tile.edit(params)
       @tile.update
       redirect to '/dashboard'
     rescue URI::InvalidURIError

@@ -6,7 +6,7 @@ set :environment, :test
 
 describe Main do
   let(:app) { Main.new }
-  let(:json_data) { File.read(File.expand_path("test/fixtures/get_data.json"))} 
+  let(:json_data) { File.read(File.expand_path("test/fixtures/get_data.json"))}
 
 
   describe 'the user clicks add new tile' do
@@ -14,7 +14,7 @@ describe Main do
       get '/new_tile'
       assert last_response.ok?
     end
-  end 
+  end
 
   describe 'the user clicks vimeo link' do
     it 'should display the new vimeo form' do
@@ -34,10 +34,13 @@ describe Main do
 
   describe 'adding a new json tile' do
     it 'should add a new json tile to the array' do
-      size = app.helpers.tiles.count  
-      response = FakeResponse.new(json_data, 200) 
-      Net::HTTP.stub :get_response, response do
-        post '/new_tile/jsontile', params = {:json_url => 'www.test.com'}
+      size = app.helpers.tiles.count
+      post_params = {:json_url => 'www.test.com'}
+      tile = JSONTile.new(post_params)
+      tile.define_singleton_method(:update) do |*args|
+      end
+      JSONTile.stub :new, tile do
+        post '/new_tile/jsontile', params = post_params
         assert_equal (size + 1) , app.helpers.tiles.count
       end
     end
@@ -48,8 +51,8 @@ describe Main do
       size =  app.helpers.tiles.count
       post '/new_tile/iframe', params = {:embed_url => 'www.test.com', :embed_height => 500, :embed_width => 300}
       assert_equal (size + 1) , app.helpers.tiles.count
-    end      
-  end 
+    end
+  end
 
   describe 'adding a new time tile' do
     it 'should add a new time tile to the array' do
@@ -91,7 +94,7 @@ describe Main do
   describe 'clicking the edit json tile link' do
     it 'should display the edit json tile form' do
       params = {:json_url => 'www.example.com'}
-      response = FakeResponse.new(json_data, 200) 
+      response = FakeResponse.new(json_data, 200)
       Net::HTTP.stub :get_response, response do
         app.helpers.tiles = [JSONTile.new(params)]
         get '/edit_tile/jsontile'
@@ -109,5 +112,3 @@ describe Main do
     end
   end
 end
-
-

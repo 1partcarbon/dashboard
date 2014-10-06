@@ -11,7 +11,8 @@ class JSONTile < Tile
   end
 
   def update
-    data = HttpResource.new.fetch(@url)
+    http = HttpResource.new(@url)
+    data = http.get
     if !data
       @objects = {}
     else
