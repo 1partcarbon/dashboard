@@ -1,17 +1,24 @@
-<!-- <meta http-equiv="refresh" content="0.3" /> -->
-  <div>
-    <a href="/new_tile">Add new tile</a>
-  </div>
+<div>
+  <a href="/new_tile">Add new tile</a>
+</div>
 
-  <% @tiles_to_display.each_with_index do |tile, index| %>
-    <br>
-    <a href="/remove_tile?index=<%=index%>">Remove tile</a><br>
-    <% if tile.editable? %>
-     <a href="/edit_tile/<%= tile.class.to_s.downcase %>?index=<%=index%>">Edit tile</a><br>
-    <% end %>
-    <%= tile.display(index) %>
-    <a href="/remove_tile?index=<%=index%>">Remove tile</a><br>
-    <% if tile.editable? %>
-     <a href="/edit_tile/<%= tile.class.to_s.downcase %>?index=<%=index%>">Edit tile</a><br>
-    <% end %>
+<% @tiles_to_display.each_with_index do |tile, index| %>
+  <br>
+  <hr>
+  <a href="/remove_tile?index=<%=index%>">Remove tile</a>
+  <% if index != 0 %>
+    <a href="/move_tile_up?index=<%=index%>">Move up</a>
   <% end %>
+  <% if tile.editable? %>
+   <a href="/edit_tile/<%= tile.class.to_s %>?index=<%=index%>">Edit tile</a>
+  <% end %>
+  <%= tile.display(index) %>
+  <a href="/remove_tile?index=<%=index%>">Remove tile</a>
+  <% if index < (@tiles_to_display.size - 1) %>
+    <a href="/move_tile_down?index=<%=index%>">Move down</a>
+  <% end %>
+  <% if tile.editable? %>
+   <a href="/edit_tile/<%= tile.class.to_s %>?index=<%=index%>">Edit tile</a>
+  <% end %>
+  <br>
+<% end %>

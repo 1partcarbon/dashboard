@@ -11,7 +11,7 @@ describe Main do
 
   describe 'the user clicks add new tile' do
     it 'should display the new tile form' do
-      get '/new_tile'#
+      get '/new_tile'
       assert last_response.ok?
     end
   end
@@ -106,6 +106,28 @@ describe Main do
       app.helpers.tiles = [Vimeo.new(params)]
       post '/edit_tile/Vimeo', params = {:video_id => '09876', :index => 0}
       assert_equal '//player.vimeo.com/video/09876', app.helpers.tiles[0].url
+    end
+  end
+
+  describe 'moving a tile up' do
+    it "should reinsert the chosen tile in it's current position - 1" do
+      params = {:video_id => '123456'}
+      vimeo_tile = Vimeo.new(params)
+      time_tile = TimeTile.new
+      app.helpers.tiles = [vimeo_tile, time_tile]
+      get '/move_tile_up', params = {:index => 1}
+      assert_equal [time_tile, vimeo_tile], app.helpers.tiles
+    end
+  end
+
+  describe 'moving a tile down' do
+    it "should reinsert the chosen tile in it's current position + 1" do
+      params = {:video_id => '123456'}
+      vimeo_tile = Vimeo.new(params)
+      time_tile = TimeTile.new
+      app.helpers.tiles = [vimeo_tile, time_tile]
+      get '/move_tile_down', params = {:index => 0}
+      assert_equal [time_tile, vimeo_tile], app.helpers.tiles
     end
   end
 end

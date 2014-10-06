@@ -106,6 +106,18 @@ class Main < Sinatra::Base
     erb :settings
   end
 
+  get '/move_tile_up' do
+    index = params[:index].to_i
+    tiles.insert(index-1, tiles.delete_at(index))
+    redirect to '/dashboard'
+  end
+
+  get '/move_tile_down' do
+    index = params[:index].to_i
+    tiles.insert(index+1, tiles.delete_at(index))
+    redirect to '/dashboard'
+  end
+
   post '/settings' do
   	@@env = params
     redirect to '/dashboard'
