@@ -17,7 +17,7 @@ class TileManager
       when 'pivotaltile'
         tile = PivotalTile.new(params)
       end
-    rescue Exception => e  
+    rescue Exception => e
         raise e
     end
     tile

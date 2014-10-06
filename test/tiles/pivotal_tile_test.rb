@@ -42,6 +42,7 @@ describe PivotalTile do
       Pivotal.stub :pivotal_update, fake_stories do
         Pivotal.stub :calculate_stories_for_owners, fake_counts do
           tile = PivotalTile.new(params)
+          tile.update
           assert_equal fake_counts, tile.stories
         end
       end

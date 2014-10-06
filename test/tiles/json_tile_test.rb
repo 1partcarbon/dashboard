@@ -62,6 +62,7 @@ def generate_json_tile
   response = FakeResponse.new(json_data, 200)
   Net::HTTP.stub :get_response, response do
     json_tile = JSONTile.new(params)
-    return json_tile
+    json_tile.update
+    json_tile
   end
 end

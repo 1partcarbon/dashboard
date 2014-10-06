@@ -13,4 +13,7 @@ class TimeTile < Tile
   def editable?
     false
   end
+
+  def update
+  end
 end

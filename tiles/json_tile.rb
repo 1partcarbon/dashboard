@@ -7,7 +7,7 @@ class JSONTile < Tile
   attr_accessor :objects
 
   def initialize(params)
-    edit(params)
+    set_params(params)
   end
 
   def update
@@ -26,7 +26,11 @@ class JSONTile < Tile
   end
 
   def edit(params)
+    set_params(params)
+  end
+
+  private
+  def set_params(params)
     @url = params[:json_url].to_s
-    update
   end
 end
