@@ -45,20 +45,24 @@ class Main < Sinatra::Base
   end
 
   get '/new_tile/:type' do |t|
-    display_new_tile_erb(t)
+    @tile = TileManager.create_tile(t)
+    display_tile_erb("new", t)
   end
-
 
   post '/new_tile/:type' do |t|
     begin
-      add_tile(params, t)
+      tile = TileManager.create_tile(t, params)
+      tile.update
+      add_tile(tile)
       redirect to '/dashboard'
     rescue URI::InvalidURIError
+      @tile = tile
       @errors.push("URL is invalid")
-      display_new_tile_erb(t)
+      display_tile_erb("new", t)
     rescue Dashboard::InvalidEndpointError
+      @tile = tile
       @errors.push("JSON is invalid, try checking your url")
-      display_new_tile_erb(t)
+      display_tile_erb("new", t)
     end
   end
 
@@ -71,25 +75,25 @@ class Main < Sinatra::Base
   get '/edit_tile/:type' do |t|
     index = params[:index].to_i
     @tile = tiles[index]
-    display_edit_tile_erb(t)
+    display_tile_erb("edit", t)
   end
 
   post '/edit_tile/:type' do |t|
     begin
       index = params[:index].to_i
-      old_tile = tiles[index]
+      old_tile = tiles[index].dup
       @tile = tiles[index]
       @tile.edit(params)
       @tile.update
       redirect to '/dashboard'
     rescue URI::InvalidURIError
       @errors.push("URL is invalid")
-      @tile = old_tile
-      display_edit_tile_erb(t)
+      tiles[index] = old_tile
+      display_tile_erb("edit", t)
     rescue Dashboard::InvalidEndpointError
       @errors.push("JSON is invalid, try checking your url")
-      @tile = old_tile
-      display_edit_tile_erb(t)
+      tiles[index] = old_tile
+      display_tile_erb("edit", t)
     end
   end
 
@@ -107,10 +111,8 @@ class Main < Sinatra::Base
     redirect to '/dashboard'
   end
 
-  def add_tile(params, type)
-    tile = TileManager.create_tile(params, type)
+  def add_tile(tile)
     if tile != nil
-      tile.update
       tiles.push(tile)
     end
   end
@@ -123,35 +125,11 @@ class Main < Sinatra::Base
     tiles = []
   end
 
-  def display_new_tile_erb(type)
-    @tile = TileManager.create_tile({}, type)
-    case type
-    when 'vimeo'
-      erb :new_tile_vimeo
-    when 'jsontile'
-      erb :new_tile_json
-    when 'iframe'
-      erb :new_tile_iframe
-    when 'timetile'
-      erb :new_tile_time
-    when 'pivotaltile'
+  def display_tile_erb(action, type)
+    if type == 'PivotalTile'
       @projects = Pivotal.get_projects
-      erb :new_tile_pivotal
     end
-  end
-
-  def display_edit_tile_erb(type)
-    case type
-    when 'vimeo'
-      erb :edit_tile_vimeo
-    when 'jsontile'
-      erb :edit_tile_json
-    when 'iframe'
-      erb :edit_tile_iframe
-    when 'pivotaltile'
-      @projects = Pivotal.get_projects
-      erb :edit_tile_pivotal
-    end
+    erb "#{action.downcase}_tile_#{type.downcase}".to_sym
   end
 
 end

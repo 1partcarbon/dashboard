@@ -58,8 +58,6 @@ class Pivotal
     sort_projects(objects)
   end
 
-
-
   def self.insert_into_array(objects)
     stories = []
     objects.each do |item|

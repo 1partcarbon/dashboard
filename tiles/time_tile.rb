@@ -2,7 +2,8 @@ require_relative 'tile.rb'
 
 class TimeTile < Tile
 
-  def intialize
+  def initialize(params={})
+
   end
 
   def display(index)

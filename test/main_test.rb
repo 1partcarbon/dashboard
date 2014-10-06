@@ -11,14 +11,14 @@ describe Main do
 
   describe 'the user clicks add new tile' do
     it 'should display the new tile form' do
-      get '/new_tile'
+      get '/new_tile'#
       assert last_response.ok?
     end
   end
 
   describe 'the user clicks vimeo link' do
     it 'should display the new vimeo form' do
-      get '/new_tile/vimeo'
+      get '/new_tile/Vimeo'
       assert last_response.ok?
     end
    end
@@ -26,7 +26,7 @@ describe Main do
   describe 'adding a new vimeo tile' do
     it 'should add a new vimeo tile to the array' do
       size =  app.helpers.tiles.count
-      post '/new_tile/vimeo', params = {:video_id => '12345'}
+      post '/new_tile/Vimeo', params = {:video_id => '12345'}
       assert_equal (size + 1) , app.helpers.tiles.count
     end
   end
@@ -40,7 +40,7 @@ describe Main do
       tile.define_singleton_method(:update) do |*args|
       end
       JSONTile.stub :new, tile do
-        post '/new_tile/jsontile', params = post_params
+        post '/new_tile/JSONTile', params = post_params
         assert_equal (size + 1) , app.helpers.tiles.count
       end
     end
@@ -49,7 +49,7 @@ describe Main do
   describe 'adding a new iframe tile' do
     it 'should add a new iframe tile to the array' do
       size =  app.helpers.tiles.count
-      post '/new_tile/iframe', params = {:embed_url => 'www.test.com', :embed_height => 500, :embed_width => 300}
+      post '/new_tile/IFrame', params = {:embed_url => 'www.test.com', :embed_height => 500, :embed_width => 300}
       assert_equal (size + 1) , app.helpers.tiles.count
     end
   end
@@ -57,7 +57,7 @@ describe Main do
   describe 'adding a new time tile' do
     it 'should add a new time tile to the array' do
       size = app.helpers.tiles.count
-      post 'new_tile/timetile'
+      post 'new_tile/TimeTile'
       assert_equal (size + 1), app.helpers.tiles.count
     end
   end
@@ -75,7 +75,7 @@ describe Main do
     it 'should display the edit vimeo tile form' do
       params = {:video_id => '123456'}
       app.helpers.tiles = [Vimeo.new(params)]
-      get '/edit_tile/vimeo'
+      get '/edit_tile/Vimeo'
       assert_includes last_response.body, 'Video url: https://vimeo.com/<input type="text" name="video_id" value="123456"><br>'
     end
   end
@@ -84,7 +84,7 @@ describe Main do
     it 'should display the edit iframe tile form' do
       params = {:embed_url => 'www.test.com', :embed_height => 500, :embed_width => 300}
       app.helpers.tiles = [IFrame.new(params)]
-      get '/edit_tile/iframe'
+      get '/edit_tile/IFrame'
       assert_includes last_response.body, 'Embed url: <input type="text" name="embed_url", value="www.test.com"><br>
   Frame width:  <input type="text" name="embed_width" value="300"><br>
   Frame height: <input type="text" name="embed_height" value="500"><br>'
@@ -94,12 +94,9 @@ describe Main do
   describe 'clicking the edit json tile link' do
     it 'should display the edit json tile form' do
       params = {:json_url => 'www.example.com'}
-      response = FakeResponse.new(json_data, 200)
-      Net::HTTP.stub :get_response, response do
-        app.helpers.tiles = [JSONTile.new(params)]
-        get '/edit_tile/jsontile'
-        assert_includes last_response.body, 'Data url: <input type="text" name="json_url" value="www.example.com"><br>'
-      end
+      app.helpers.tiles = [JSONTile.new(params)]
+      get '/edit_tile/JSONTile'
+      assert_includes last_response.body, 'Data url: <input type="text" name="json_url" value="www.example.com"><br>'
     end
   end
 
@@ -107,7 +104,7 @@ describe Main do
     it 'should update the values of the associated tile' do
       params = {:video_id => '123456'}
       app.helpers.tiles = [Vimeo.new(params)]
-      post '/edit_tile/vimeo', params = {:video_id => '09876', :index => 0}
+      post '/edit_tile/Vimeo', params = {:video_id => '09876', :index => 0}
       assert_equal '//player.vimeo.com/video/09876', app.helpers.tiles[0].url
     end
   end
