@@ -138,7 +138,7 @@ class Main < Sinatra::Base
   end
 
   def display_tile_erb(type)
-    erb "form_#{type.downcase}".to_sym
+    erb "forms/#{type.downcase}".to_sym
   end
 
 end
