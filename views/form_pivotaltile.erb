@@ -1,7 +1,7 @@
-<h3>Edit pivotal tile</h3>
+<h3>Pivotal tile</h3>
 <form method="post">
   Project:      <select name="pivotal_project_id">
-                <% @projects.each do |project| %>
+                <% @tile.projects.each do |project| %>
                   <option value=<%= project["id"] %> <% if @tile.project_id.to_s == project["id"].to_s %> selected="selected" <% end %>><%= project["name"] %></option>
                 <% end %>
                 </select><br>

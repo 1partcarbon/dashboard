@@ -46,7 +46,7 @@ class Main < Sinatra::Base
 
   get '/new_tile/:type' do |t|
     @tile = TileManager.create_tile(t)
-    display_tile_erb("new", t)
+    display_tile_erb(t)
   end
 
   post '/new_tile/:type' do |t|
@@ -58,11 +58,11 @@ class Main < Sinatra::Base
     rescue URI::InvalidURIError
       @tile = tile
       @errors.push("URL is invalid")
-      display_tile_erb("new", t)
+      display_tile_erb(t)
     rescue Dashboard::InvalidEndpointError
       @tile = tile
       @errors.push("JSON is invalid, try checking your url")
-      display_tile_erb("new", t)
+      display_tile_erb(t)
     end
   end
 
@@ -75,7 +75,7 @@ class Main < Sinatra::Base
   get '/edit_tile/:type' do |t|
     index = params[:index].to_i
     @tile = tiles[index]
-    display_tile_erb("edit", t)
+    display_tile_erb(t)
   end
 
   post '/edit_tile/:type' do |t|
@@ -89,11 +89,11 @@ class Main < Sinatra::Base
     rescue URI::InvalidURIError
       @errors.push("URL is invalid")
       tiles[index] = old_tile
-      display_tile_erb("edit", t)
+      display_tile_erb(t)
     rescue Dashboard::InvalidEndpointError
       @errors.push("JSON is invalid, try checking your url")
       tiles[index] = old_tile
-      display_tile_erb("edit", t)
+      display_tile_erb(t)
     end
   end
 
@@ -137,11 +137,8 @@ class Main < Sinatra::Base
     tiles = []
   end
 
-  def display_tile_erb(action, type)
-    if type == 'PivotalTile'
-      @projects = Pivotal.get_projects
-    end
-    erb "#{action.downcase}_tile_#{type.downcase}".to_sym
+  def display_tile_erb(type)
+    erb "form_#{type.downcase}".to_sym
   end
 
 end

@@ -26,6 +26,10 @@ class PivotalTile < Tile
     STORY_ACTIONS
   end
 
+  def projects
+    Pivotal.get_projects
+  end
+
   def initialize(params)
     setup_variables(params)
     @counter = 0
