@@ -18,6 +18,7 @@ class JSONTile < Tile
     else
       @objects = JSON.parse(data.body)
     end
+    super
   end
 
   def display(index)
@@ -28,6 +29,7 @@ class JSONTile < Tile
 
   def edit(params)
     set_params(params)
+    super(params)
   end
 
   private

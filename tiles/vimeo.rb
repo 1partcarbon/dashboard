@@ -10,12 +10,13 @@ class Vimeo < Tile
   end
 
   def update
-
+    super
   end
 
   def edit(params)
     @video_id = params[:video_id].to_s
     @url = "//player.vimeo.com/video/" + @video_id
+    super(params)
   end
 
   def display(index)

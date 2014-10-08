@@ -46,6 +46,7 @@ class PivotalTile < Tile
     else
       @stories = Pivotal.insert_into_array(objects)
     end
+    super
   end
 
   def display(index)
@@ -64,6 +65,7 @@ class PivotalTile < Tile
 
   def edit(params)
     setup_variables(params)
+    super(params)
   end
 
   def self.time_now

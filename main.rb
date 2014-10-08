@@ -13,10 +13,6 @@ class Main < Sinatra::Base
 
   @@env = { pivotal_token:  '911f87a7a91f7465ef00d89d9cb8edc3'}
 
-  def tile_types
-    @tile_types
-  end
-
   def self.env_params
     @@env
   end
@@ -37,12 +33,12 @@ class Main < Sinatra::Base
   end
 
   get '/dashboard' do
-    @tiles_to_display = tiles
+    @tiles
     erb :dashboard
   end
 
   get '/new_tile' do
-    @types = tile_types
+    @tile_types
     erb :new_tile
   end
 
@@ -88,9 +84,7 @@ class Main < Sinatra::Base
     begin
       index = params[:index].to_i
       old_tile = tiles[index].dup
-      @tile = tiles[index]
-      @tile.edit(params)
-      @tile.update
+      @tile = tiles[index].edit(params).update
       redirect to '/dashboard'
     rescue URI::InvalidURIError
       @errors.push("URL is invalid")
@@ -131,16 +125,16 @@ class Main < Sinatra::Base
 
   def add_tile(tile)
     if tile != nil
-      tiles.push(tile)
+      @tiles.push(tile)
     end
   end
 
   def remove_tile(index)
-    tiles.delete_at(index)
+    @tiles.delete_at(index)
   end
 
   def delete_all
-    tiles = []
+    @tiles = []
   end
 
   def display_tile_erb(type)

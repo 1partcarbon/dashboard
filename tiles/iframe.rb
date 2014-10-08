@@ -9,13 +9,14 @@ class IFrame < Tile
   end
 
   def update
-
+    super
   end
 
   def edit(params)
     @url = params[:embed_url]
     @width = params[:embed_width].to_i
     @height = params[:embed_height].to_i
+    super(params)
   end
 
   def display(index)

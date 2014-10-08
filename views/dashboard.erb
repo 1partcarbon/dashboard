@@ -2,7 +2,7 @@
   <a href="/new_tile">Add new tile</a>
 </div>
 
-<% @tiles_to_display.each_with_index do |tile, index| %>
+<% @tiles.each_with_index do |tile, index| %>
   <br>
   <hr>
   <a href="/remove_tile?index=<%=index%>">Remove tile</a>
@@ -14,7 +14,7 @@
   <% end %>
   <%= tile.display(index) %>
   <a href="/remove_tile?index=<%=index%>">Remove tile</a>
-  <% if index < (@tiles_to_display.size - 1) %>
+  <% if index < (@tiles.size - 1) %>
     <a href="/move_tile_down?index=<%=index%>">Move down</a>
   <% end %>
   <% if tile.editable? %>

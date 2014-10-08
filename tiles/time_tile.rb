@@ -16,5 +16,6 @@ class TimeTile < Tile
   end
 
   def update
+    super
   end
 end

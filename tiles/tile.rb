@@ -6,4 +6,12 @@ class Tile
     true
   end
 
+  def edit(params)
+    self
+  end
+
+  def update
+    self
+  end
+
 end
