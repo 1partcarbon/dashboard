@@ -1,7 +1,5 @@
 <ul>
-  <li><a href="/new_tile/Vimeo">Vimeo</a></li>
-  <li><a href="/new_tile/JSONTile">Json</li>
-  <li><a href="/new_tile/IFrame">IFrame</li>
-  <li><a href="/new_tile/TimeTile">Time</li>
-  <li><a href="/new_tile/PivotalTile">Pivotal</li>
+  <% @types.keys.each do |key| %>
+    <li><a href="/new_tile/<%= key %>"><%= @tile_types[key] %></li>
+  <% end %>
 </ul>

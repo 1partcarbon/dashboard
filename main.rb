@@ -13,6 +13,10 @@ class Main < Sinatra::Base
 
   @@env = { pivotal_token:  '911f87a7a91f7465ef00d89d9cb8edc3'}
 
+  def tile_types
+    @tile_types
+  end
+
   def self.env_params
     @@env
   end
@@ -24,6 +28,7 @@ class Main < Sinatra::Base
   def initialize
     @tiles = []
     @errors = []
+    @tile_types = {Vimeo: 'Vimeo', JSONTile: 'Json', IFrame: 'IFrame', TimeTile: 'Time', PivotalTile: 'Pivotal' }
     super
   end
 
@@ -37,6 +42,7 @@ class Main < Sinatra::Base
   end
 
   get '/new_tile' do
+    @types = tile_types
     erb :new_tile
   end
 
