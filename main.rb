@@ -42,10 +42,6 @@ class Main < Sinatra::Base
     erb :new_tile
   end
 
-  get '/spike' do
-    erb :spike_dashboard
-  end
-
   get '/new_tile/:type' do |t|
     @tile = TileManager.create_tile(t)
     display_tile_erb(t)
@@ -57,13 +53,9 @@ class Main < Sinatra::Base
       tile.update
       add_tile(tile)
       redirect to '/dashboard'
-    rescue URI::InvalidURIError
+    rescue => e
       @tile = tile
-      @errors.push("URL is invalid")
-      display_tile_erb(t)
-    rescue Dashboard::InvalidEndpointError
-      @tile = tile
-      @errors.push("JSON is invalid, try checking your url")
+      @errors.push(e.message)
       display_tile_erb(t)
     end
   end
@@ -86,13 +78,9 @@ class Main < Sinatra::Base
       old_tile = tiles[index].dup
       @tile = tiles[index].edit(params).update
       redirect to '/dashboard'
-    rescue URI::InvalidURIError
-      @errors.push("URL is invalid")
+    rescue => e
       tiles[index] = old_tile
-      display_tile_erb(t)
-    rescue Dashboard::InvalidEndpointError
-      @errors.push("JSON is invalid, try checking your url")
-      tiles[index] = old_tile
+      @errors.push(e.message)
       display_tile_erb(t)
     end
   end
@@ -107,15 +95,11 @@ class Main < Sinatra::Base
   end
 
   get '/move_tile_up' do
-    index = params[:index].to_i
-    tiles.insert(index-1, tiles.delete_at(index))
-    redirect to '/dashboard'
+    handle_move(params, -1)
   end
 
   get '/move_tile_down' do
-    index = params[:index].to_i
-    tiles.insert(index+1, tiles.delete_at(index))
-    redirect to '/dashboard'
+    handle_move(params, 1)
   end
 
   post '/settings' do
@@ -141,4 +125,9 @@ class Main < Sinatra::Base
     erb "forms/#{type.downcase}".to_sym
   end
 
+  def handle_move(params, direction)
+    index = params[:index].to_i
+    tiles.insert(index + direction, tiles.delete_at(index))
+    redirect to '/dashboard'
+  end
 end
