@@ -10,18 +10,18 @@ class Vimeo < Tile
   end
 
   def update
-    
+    super
   end
 
   def edit(params)
     @video_id = params[:video_id].to_s
     @url = "//player.vimeo.com/video/" + @video_id
+    super(params)
   end
 
-  def display
+  def display(index)
     context = {:url => @url}
     ERBParser.parse(context, "views/tiles/vimeo.erb")
   end
 
 end
-

@@ -11,44 +11,52 @@ class Main < Sinatra::Base
 
   attr_accessor :tiles
 
+  @@env = { pivotal_token:  '911f87a7a91f7465ef00d89d9cb8edc3'}
+
+  def self.env_params
+    @@env
+  end
+
+  def self.update_env(params)
+    @@env = params
+  end
+
   def initialize
     @tiles = []
     @errors = []
+    @tile_types = {Vimeo: 'Vimeo', JSONTile: 'Json', IFrame: 'IFrame', TimeTile: 'Time', PivotalTile: 'Pivotal' }
     super
   end
 
-  get '/' do 
+  get '/' do
     redirect to '/dashboard'
   end
 
   get '/dashboard' do
-    @tiles_to_display = tiles
+    @tiles
     erb :dashboard
   end
 
   get '/new_tile' do
+    @tile_types
     erb :new_tile
   end
 
-  get '/spike' do
-    erb :spike_dashboard
-  end
-
   get '/new_tile/:type' do |t|
-    display_new_tile_erb(t)
+    @tile = TileManager.create_tile(t)
+    display_tile_erb(t)
   end
-
 
   post '/new_tile/:type' do |t|
-    begin 
-      add_tile(params, t)
+    begin
+      tile = TileManager.create_tile(t, params)
+      tile.update
+      add_tile(tile)
       redirect to '/dashboard'
-    rescue URI::InvalidURIError
-      @errors.push("URL is invalid")
-      display_new_tile_erb(t)
-    rescue Dashboard::InvalidEndpointError
-      @errors.push("JSON is invalid, try checking your url")
-      display_new_tile_erb(t)
+    rescue => e
+      @tile = tile
+      @errors.push(e.message)
+      display_tile_erb(t)
     end
   end
 
@@ -61,23 +69,19 @@ class Main < Sinatra::Base
   get '/edit_tile/:type' do |t|
     index = params[:index].to_i
     @tile = tiles[index]
-    display_edit_tile_erb(t)
+    display_tile_erb(t)
   end
 
   post '/edit_tile/:type' do |t|
     begin
       index = params[:index].to_i
-      old_tile = tiles[index]
-      @tile = tiles[index].edit(params)
+      old_tile = tiles[index].dup
+      @tile = tiles[index].edit(params).update
       redirect to '/dashboard'
-    rescue URI::InvalidURIError
-      @errors.push("URL is invalid")
-      @tile = old_tile
-      display_edit_tile_erb(t)
-    rescue Dashboard::InvalidEndpointError
-      @errors.push("JSON is invalid, try checking your url")
-      @tile = old_tile
-      display_edit_tile_erb(t)
+    rescue => e
+      tiles[index] = old_tile
+      @errors.push(e.message)
+      display_tile_erb(t)
     end
   end
 
@@ -85,47 +89,45 @@ class Main < Sinatra::Base
     @errors.clear
   end
 
-  def add_tile(params, type)
-    tile = TileManager.create_tile(params, type)
+  get '/settings' do
+    @env = @@env
+    erb :settings
+  end
+
+  get '/move_tile_up' do
+    handle_move(params, -1)
+  end
+
+  get '/move_tile_down' do
+    handle_move(params, 1)
+  end
+
+  post '/settings' do
+  	@@env = params
+    redirect to '/dashboard'
+  end
+
+  def add_tile(tile)
     if tile != nil
-      tiles.push(tile)
+      @tiles.push(tile)
     end
   end
 
   def remove_tile(index)
-    tiles.delete_at(index)
+    @tiles.delete_at(index)
   end
 
   def delete_all
-    tiles = []
+    @tiles = []
   end
 
-  def display_new_tile_erb(type)
-    case type
-    when 'vimeo'
-      erb :new_tile_vimeo
-    when 'jsontile'
-      erb :new_tile_json
-    when 'iframe'
-      erb :new_tile_iframe
-    when 'timetile'
-      erb :new_tile_time
-    when 'pivotaltile'
-      erb :new_tile_pivotal
-    end
+  def display_tile_erb(type)
+    erb "forms/#{type.downcase}".to_sym
   end
 
-  def display_edit_tile_erb(type)
-    case type
-    when 'vimeo'
-      erb :edit_tile_vimeo
-    when 'jsontile'
-      erb :edit_tile_json
-    when 'iframe'
-      erb :edit_tile_iframe
-    when 'pivotaltile'
-      erb :edit_tile_pivotal
-    end 
+  def handle_move(params, direction)
+    index = params[:index].to_i
+    tiles.insert(index + direction, tiles.delete_at(index))
+    redirect to '/dashboard'
   end
-
 end

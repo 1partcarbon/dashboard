@@ -7,12 +7,15 @@
   <link rel="stylesheet" href="/css/collapsible_tree.css">
   <script type="text/javascript" src="/javascript/d3.js"></script>
   <script type="text/javascript" src="/javascript/jquery.js"></script>
+  <script type="text/javascript" src="/javascript/pivotal.js"></script
 </head>
 
 
 <body>
-<a  style="float: right;" href='/dashboard'>Back to Dashboard</a>
   <section>
+    <a  style="float: right; display:inline;" href='/settings'>Settings</a><br>
+    <a  style="float: right; display:inline;" href='/dashboard'>Back to Dashboard</a>
+
     <% if @errors.any? %>
       <ul>
       <% @errors.each do |e| %>

@@ -7,26 +7,33 @@ class JSONTile < Tile
   attr_accessor :objects
 
   def initialize(params)
-    edit(params)
+    set_params(params)
   end
 
   def update
-    data = HttpResource.new.fetch(@url)
+    http = HttpResource.new(@url)
+    data = http.get
     if !data
       @objects = {}
     else
       @objects = JSON.parse(data.body)
     end
+    super
   end
 
-  def display
+  def display(index)
     update
     context = {:objects => @objects}
     ERBParser.parse(context, "views/tiles/json.erb")
   end
 
   def edit(params)
+    set_params(params)
+    super(params)
+  end
+
+  private
+  def set_params(params)
     @url = params[:json_url].to_s
-    update
   end
 end

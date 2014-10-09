@@ -9,17 +9,17 @@ describe Vimeo do
 
   let(:params) {{:video_id => 12345}}
   let(:edit_params) {{:video_id => 456}}
-  describe 'intiailize' do  
+  describe 'intiailize' do
     it 'should be initialised with a url to the video' do
       vimeo = Vimeo.new(params)
-      assert_equal '//player.vimeo.com/video/12345', vimeo.url 
+      assert_equal '//player.vimeo.com/video/12345', vimeo.url
     end
   end
 
   describe 'display' do
-    it 'should render the vimeo erb' do 
+    it 'should render the vimeo erb' do
       vimeo = Vimeo.new(params)
-      assert_includes  vimeo.display, '<iframe src="//player.vimeo.com/video/12345"'
+      assert_includes  vimeo.display(0), '<iframe src="//player.vimeo.com/video/12345"'
     end
   end
 

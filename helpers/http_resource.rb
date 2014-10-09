@@ -5,41 +5,27 @@ require_relative '../modules/dashboard.rb'
 
 class HttpResource
 
-  def fetch(url)
-    uri = uri(url)
-    begin
-      response = Net::HTTP.get_response(uri)
-    rescue
-      raise Dashboard::InvalidEndpointError
-    end
-    response.code == "200" ? response : false
+  attr_accessor :url
+  attr_accessor :headers
 
+  def initialize(url, headers={})
+    @url = url
+    @headers = headers
   end
 
-  def fetch_with_token(url, headers)
-    uri = URI.parse(url)
+  def get
     begin
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      request = Net::HTTP::Get.new(uri.request_uri, headers)
+      parsed_url = URI.parse(@url)
+      http = Net::HTTP.new(parsed_url.host, parsed_url.port)
+      http.use_ssl = (parsed_url.scheme == "https")
+      request = Net::HTTP::Get.new(parsed_url.request_uri, @headers)
       response = http.request(request)
+    rescue URI::InvalidURIError
+      raise Dashboard::InvalidURIError
     rescue
       raise Dashboard::InvalidEndpointError
     end
     response.code == "200" ? response : false
-  end
-
-private
-  def uri(url)
-    uri = URI(url)
-    begin
-      uri.scheme ? uri : false
-    rescue
-      raise URI::InvalidURIError
-    end
   end
 
 end
-
-
-

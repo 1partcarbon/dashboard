@@ -2,24 +2,11 @@ Dir["../tiles/*"].each {|file| require_relative file }
 
 class TileManager
 
-  def self.create_tile(params, type)
-    tile = nil
+  def self.create_tile(type, params={})
     begin
-      case type
-      when 'vimeo'
-        tile = Vimeo.new(params)
-      when 'iframe'
-        tile = IFrame.new(params)
-      when 'jsontile'
-        tile = JSONTile.new(params)
-      when 'timetile'
-        tile = TimeTile.new
-      when 'pivotaltile'
-        tile = PivotalTile.new(params)
-      end
-    rescue Exception => e  
-        raise e
+      tile = Object.const_get(type).new(params)
+    rescue Exception => e
+      raise e
     end
-    tile
   end
 end
